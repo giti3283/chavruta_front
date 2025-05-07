@@ -1,0 +1,89 @@
+/* בס"ד */
+.chavruta-container {
+    padding-top: 2rem;
+    padding-bottom: 4rem;
+    direction: rtl;
+}
+
+.page-title {
+    margin-bottom: 2rem;
+    color: #1976d2;
+    font-weight: 600;
+    position: relative;
+}
+
+.page-title::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 3px;
+    background-color: #1976d2;
+    border-radius: 3px;
+}
+
+.chavruta-card {
+    border-radius: 12px;
+    overflow: hidden;
+    position: relative;
+}
+
+.chavruta-card:hover {
+    cursor: pointer;
+}
+
+.card-title {
+    font-weight: 600;
+    color: #1976d2;
+}
+
+/* אנימציות */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.chavruta-card {
+    animation: fadeIn 0.5s ease-out forwards;
+    animation-delay: calc(0.1s * var(--index, 0));
+    opacity: 0;
+}
+
+/* רספונסיביות */
+@media (max-width: 600px) {
+    .chavruta-container {
+        padding-top: 1rem;
+    }
+    
+    .page-title {
+        font-size: 1.5rem;
+    }
+}
+
+/* סגנון לדיאלוג */
+.MuiDialog-paper {
+    overflow-y: visible !important;
+}
+
+/* סגנון לפאנל הסינון */
+.filter-panel {
+    background-color: #f5f5f5;
+    border-radius: 8px;
+    margin-bottom: 2rem;
+}
+
+/* סגנון לכרטיסי לוח זמנים */
+.schedule-card {
+    transition: all 0.3s ease;
+}
+
+.schedule-card:hover {
+    transform: scale(1.05);
+}
+
+/* סגנון לצ'יפים */
+.MuiChip-root {
+    margin: 2px;
+}

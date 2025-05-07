@@ -1,0 +1,70 @@
+/*  בס"ד */
+/* dialog{
+    direction:ltr;
+    width:300px;
+    height:auto;
+    margin-top: 100px;
+    border-radius: 3%;
+}
+label{
+   font-size: larger;
+}
+.header{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+input{
+    width: 80%;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    height: 30px;
+    font-size: medium;
+}
+button{
+    width: 50%;
+    background-color: black;
+    color: white;
+} */
+body {font-family: Arial, Helvetica, sans-serif;}
+* {box-sizing: border-box;}
+
+.input-container {
+  display: -ms-flexbox; /* IE10 */
+  display: flex;
+  width: 100%;
+  margin-bottom: 15px;
+}
+
+.icon {
+  padding: 8px;
+  background: rgb(112, 176, 231);
+  color: white;
+  min-width: 50px;
+  text-align: center;
+}
+
+.input-field {
+  width: 100%;
+  padding: 10px;
+  outline: none;
+}
+
+.input-field:focus {
+  border: 2px solid rgb(112, 176, 231);
+}
+
+/* Set a style for the submit button */
+.btn {
+  background-color: rgb(112, 176, 231);
+  color: white;
+  padding: 15px 20px;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  opacity: 0.9;
+}
+
+.btn:hover {
+  opacity: 1;
+}

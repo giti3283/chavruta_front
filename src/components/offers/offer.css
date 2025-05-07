@@ -1,0 +1,206 @@
+.nav{
+    direction: rtl;
+  
+}
+tr{
+    display: flex;
+    justify-content: space-around;
+    width: 600px;
+    border: 1px black solid;
+}
+.searchResults{
+    width: 100%;
+    border: 1px salmon solid
+}
+/* ******************************** */
+/*  Add this CSS to offer.css */
+
+.modern-dialog::backdrop {
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.modern-dialog {
+  animation: scaleIn 0.3s ease-out forwards;
+}
+
+.modern-dialog[open] {
+  display: block;
+}
+
+/* RTL Support */
+[dir="rtl"] .MuiInputAdornment-root.MuiInputAdornment-positionStart {
+  margin-right: 0;
+  margin-left: 8px;
+}
+
+[dir="rtl"] .MuiInputAdornment-root.MuiInputAdornment-positionEnd {
+  margin-left: 0;
+  margin-right: 8px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+  .modern-dialog {
+    width: 90%;
+    max-width: none;
+    margin: 16px;
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #c5cae9;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #3f51b5;
+}
+*/
+/* Modern dialog styling */
+.modern-dialog::backdrop {
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+  }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  @keyframes scaleIn {
+    from {
+      opacity: 0;
+      transform: scale(0.9);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+  
+  .modern-dialog {
+    animation: scaleIn 0.3s ease-out forwards;
+  }
+  
+  .modern-dialog[open] {
+    display: block;
+  }
+  
+  /* RTL Support */
+  [dir="rtl"] .MuiInputAdornment-root.MuiInputAdornment-positionStart {
+    margin-right: 0;
+    margin-left: 8px;
+  }
+  
+  [dir="rtl"] .MuiInputAdornment-root.MuiInputAdornment-positionEnd {
+    margin-left: 0;
+    margin-right: 8px;
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 600px) {
+    .modern-dialog {
+      width: 90%;
+      max-width: none;
+      margin: 16px;
+    }
+  }
+  
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background: #c5cae9;
+    border-radius: 10px;
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    background: #3f51b5;
+  }
+  
+  /* Animation for table rows and cards */
+  .fade-in {
+    animation: fadeIn 0.5s ease-out forwards;
+  }
+  
+  /* Glassmorphism effects */
+  .glass-effect {
+    background: rgba(255, 255, 255, 0.25);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    box-shadow: 0 8px 32px rgba(31, 38, 135, 0.15);
+  }
+  
+  /* Gradient text */
+  .gradient-text {
+    background: linear-gradient(90deg, #3f51b5 0%, #f50057 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-fill-color: transparent;
+  }
+  
+  /* Hover effects */
+  .hover-lift {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .hover-lift:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Dark mode support */
+  @media (prefers-color-scheme: dark) {
+    .dark-mode-support {
+      background-color: #121212;
+      color: #ffffff;
+    }
+  }
