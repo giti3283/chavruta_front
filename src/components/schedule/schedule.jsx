@@ -629,7 +629,7 @@ export const Schedule = () => {
           <Button
             variant="contained"
             color="primary"
-            onClick={isEditMode ? updateSchedule : addSchedule}
+            onClick={isEditMode ? updateSchedule() : addSchedule()}
             disabled={loading}
             startIcon={loading ? <CircularProgress size={20} color="inherit" /> : null}
           >

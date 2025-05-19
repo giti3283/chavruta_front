@@ -1,617 +1,4 @@
-// // בס"ד
-// import { useState } from "react";
-// import { useDispatch } from "react-redux";
-// import { AddPersonThunk } from "../../redux/Person/addPersonThunk"
-// import { Navigate, useNavigate, useParams } from "react-router-dom";
-// import './logon.css'
-// import Autocomplete from '@mui/material/Autocomplete';
-// import { Box, Button, FormControl, FormControlLabel, FormLabel, InputAdornment, inputBaseClasses, InputLabel, MenuItem, Radio, RadioGroup, Select, Stack, TextField } from "@mui/material";
-// import { Visibility, VisibilityOff } from "@mui/icons-material";
-// export const Logon = () => {
-
-//     const dispatch = useDispatch()
-//     const param = useParams()
-//     const [person, setPerson] = useState({ id: param.id, firstName: param.firstName, lastName: param.lastName, birthDate: '', gender: 'male', status: 'single', cellularTelephone: '', telephone: '', country: '', city: '', email: '', role: '', denomination: 'generic' })
-//     const navi = useNavigate()
-
-//     const log = async () => {
-//         dispatch(AddPersonThunk(person))
-//         if (person.role === "request")
-//             navi(`/request/${person.id}`)
-//         else
-//             navi(`/offer/${person.id}`)
-//     }
-//     return <div id="d">
-//         <Box sx={{ m: 2, display: 'flex', flexWrap: 'wrap' }}>
-//             <div>
-
-//                 <h3>Hi ,{param.firstName} {param.lastName}</h3>
-//                 <h4>Please fill in your details:</h4>
-//                 <TextField value={person.birthDate} type="date" id="outlined-basic" label="BirthDate" variant="standard" onChange={x => setPerson({ ...person, birthDate: x.target.value })} />
-//                 <FormControl fullWidth>
-//                     <InputLabel id="demo-simple-select-label">Gender</InputLabel>
-//                     <Select
-//                         variant="standard"
-//                         labelId="demo-simple-select-label"
-//                         id="demo-simple-select"
-//                         value={param.gender}
-//                         label="gender"
-//                         onChange={e => setPerson({ ...person, gender: e.target.value })}
-//                     >
-//                         <MenuItem value={"male"}>male</MenuItem>
-//                         <MenuItem value={"female"}>female</MenuItem>
-//                     </Select>
-//                 </FormControl>
-//                 <FormControl fullWidth>
-//                     <InputLabel id="demo-simple-select-label">Status</InputLabel>
-//                     <Select
-//                         variant="standard"
-//                         labelId="demo-simple-select-label"
-//                         id="demo-simple-select"
-//                         value={param.status}
-//                         label="status"
-//                         onChange={e => setPerson({ ...person, status: e.target.value })}
-//                     >
-//                         <MenuItem value={"single"}>single</MenuItem>
-//                         <MenuItem value={"married"}>married</MenuItem>
-//                         <MenuItem value={"divorce"}>divorce</MenuItem>
-//                         <MenuItem value={"widower"}>widower</MenuItem>
-//                     </Select>
-//                 </FormControl>
-//                 <FormControl fullWidth>
-//                     <InputLabel id="demo-simple-select-label">denomination</InputLabel>
-//                     <Select
-//                         variant="standard"
-//                         labelId="demo-simple-select-label"
-//                         id="demo-simple-select"
-//                         value={param.denomination}
-//                         label="denomination"
-//                         onChange={e => setPerson({ ...person, denomination: e.target.value })}
-//                     >
-//                         <MenuItem value={"spaniard"}>spaniard</MenuItem>
-//                         <MenuItem value={"ashkenazi"}>ashkenazi</MenuItem>
-//                         <MenuItem value={"yemeni"}>yemeni</MenuItem>
-//                         <MenuItem value={"moroccan"}>moroccan</MenuItem>
-//                         <MenuItem value={"generic"}>generic</MenuItem>
-//                         <MenuItem value={"another"}>another</MenuItem>
-//                     </Select> </FormControl>
-//                 <TextField value={person.phone} id="outlined-basic" label="phone" variant="standard" onChange={x => setPerson({ ...person, phone: x.target.value })} />
-//                 <TextField value={person.cellularTelephone} id="outlined-basic" label="cellularTelephone" variant="standard" onChange={x => setPerson({ ...person, cellularTelephone: x.target.value })} />
-//                 {/* <TextField value={person.email} id="outlined-basic" label="email" variant="standard" onChange={x => setPerson({ ...person, email: x.target.value })} /> */}
-//                 <TextField
-//                     onChange={x => setPerson({ ...person, email: x.target.value+"@gmail.com" })}
-//                     id="standard-suffix-shrink"
-//                     label="Email"
-//                     variant="standard"
-//                     slotProps={{
-//                         htmlInput: {
-//                             sx: { textAlign: 'right' },
-//                         },
-//                         input: {
-//                             endAdornment: (
-//                                 <InputAdornment
-//                                     position="end"
-//                                     sx={{
-//                                         alignSelf: 'flex-end',
-//                                         marginBottom: '5px',
-//                                         opacity: 0,
-//                                         pointerEvents: 'none',
-//                                         [`[data-shrink=true] ~ .${inputBaseClasses.root} > &`]: {
-//                                             opacity: 1,
-//                                         },
-//                                     }}
-//                                 >
-//                                     @gmail.com
-//                                 </InputAdornment>
-//                             ),
-//                         },
-//                     }}
-//                 />
-//                 <Autocomplete
-//                     id="country-select-demo"
-//                     sx={{ width: 300 }}
-//                     options={countries}
-//                     autoHighlight
-//                     getOptionLabel={(option) => option.label}
-//                     renderOption={(props, option) => {
-//                         const { key, ...optionProps } = props;
-//                         return (
-//                             <Box
-//                                 key={key}
-//                                 component="li"
-//                                 sx={{ '& > img': { mr: 2, flexShrink: 0 } }}
-//                                 {...optionProps}
-//                             >
-//                                 <img
-//                                     loading="lazy"
-//                                     width="20"
-//                                     srcSet={`https://flagcdn.com/w40/${option.code.toLowerCase()}.png 2x`}
-//                                     src={`https://flagcdn.com/w20/${option.code.toLowerCase()}.png`}
-//                                     alt=""
-//                                 />
-//                                 {option.label} +{option.phone}
-//                             </Box>
-//                         );
-//                     }}
-//                     renderInput={(params) => (
-//                         <TextField
-//                             onClick={(e) => setPerson({ ...person, country: e.target.value })}
-//                             variant="standard"
-//                             {...params}
-//                             label="Choose a country"
-//                             slotProps={{
-//                                 htmlInput: {
-//                                     ...params.inputProps,
-//                                     autoComplete: 'new-password', // disable autocomplete and autofill
-//                                 },
-//                             }}
-//                         />
-//                     )}
-//                 />
-//                 <TextField value={person.city} id="outlined-basic" label="city" variant="standard" onChange={x => setPerson({ ...person, city: x.target.value })} />
-//                 <FormControl fullWidth>
-//                     {/* <FormLabel id="demo-controlled-radio-buttons-group">Role</FormLabel> */}
-//                     <RadioGroup
-//                         aria-labelledby="demo-controlled-radio-buttons-group"
-//                         name="controlled-radio-buttons-group"
-//                         value={person.role}
-//                         onChange={e => setPerson({ ...person, role: e.target.value })}
-//                     >
-//                         <FormControlLabel value="offer" control={<Radio />} label="offer" />
-//                         <FormControlLabel value="request" control={<Radio />} label="request" />
-//                     </RadioGroup>
-//                 </FormControl>
-
-
-                
-
-
-//                 <Stack
-//                     direction={{ xs: 'column', sm: 'row' }}
-//                     spacing={{ xs: 1, sm: 2, md: 4 }}>
-//                     <Button variant="outlined" onClick={() => Navigate('/login')}>back</Button>
-//                     <Button variant="outlined" onClick={() => log()}>continue</Button>
-//                 </Stack>
-
-//             </div>
-//         </Box>
-//     </div>
-
-
-
-
-
-
-// }
-
-// // From https://bitbucket.org/atlassian/atlaskit-mk-2/raw/4ad0e56649c3e6c973e226b7efaeb28cb240ccb0/packages/core/select/src/data/countries.js
-// const countries = [
-//     { code: 'AD', label: 'Andorra', phone: '376' },
-//     {
-//         code: 'AE',
-//         label: 'United Arab Emirates',
-//         phone: '971',
-//     },
-//     { code: 'AF', label: 'Afghanistan', phone: '93' },
-//     {
-//         code: 'AG',
-//         label: 'Antigua and Barbuda',
-//         phone: '1-268',
-//     },
-//     { code: 'AI', label: 'Anguilla', phone: '1-264' },
-//     { code: 'AL', label: 'Albania', phone: '355' },
-//     { code: 'AM', label: 'Armenia', phone: '374' },
-//     { code: 'AO', label: 'Angola', phone: '244' },
-//     { code: 'AQ', label: 'Antarctica', phone: '672' },
-//     { code: 'AR', label: 'Argentina', phone: '54' },
-//     { code: 'AS', label: 'American Samoa', phone: '1-684' },
-//     { code: 'AT', label: 'Austria', phone: '43' },
-//     {
-//         code: 'AU',
-//         label: 'Australia',
-//         phone: '61',
-//         suggested: true,
-//     },
-//     { code: 'AW', label: 'Aruba', phone: '297' },
-//     { code: 'AX', label: 'Alland Islands', phone: '358' },
-//     { code: 'AZ', label: 'Azerbaijan', phone: '994' },
-//     {
-//         code: 'BA',
-//         label: 'Bosnia and Herzegovina',
-//         phone: '387',
-//     },
-//     { code: 'BB', label: 'Barbados', phone: '1-246' },
-//     { code: 'BD', label: 'Bangladesh', phone: '880' },
-//     { code: 'BE', label: 'Belgium', phone: '32' },
-//     { code: 'BF', label: 'Burkina Faso', phone: '226' },
-//     { code: 'BG', label: 'Bulgaria', phone: '359' },
-//     { code: 'BH', label: 'Bahrain', phone: '973' },
-//     { code: 'BI', label: 'Burundi', phone: '257' },
-//     { code: 'BJ', label: 'Benin', phone: '229' },
-//     { code: 'BL', label: 'Saint Barthelemy', phone: '590' },
-//     { code: 'BM', label: 'Bermuda', phone: '1-441' },
-//     { code: 'BN', label: 'Brunei Darussalam', phone: '673' },
-//     { code: 'BO', label: 'Bolivia', phone: '591' },
-//     { code: 'BR', label: 'Brazil', phone: '55' },
-//     { code: 'BS', label: 'Bahamas', phone: '1-242' },
-//     { code: 'BT', label: 'Bhutan', phone: '975' },
-//     { code: 'BV', label: 'Bouvet Island', phone: '47' },
-//     { code: 'BW', label: 'Botswana', phone: '267' },
-//     { code: 'BY', label: 'Belarus', phone: '375' },
-//     { code: 'BZ', label: 'Belize', phone: '501' },
-//     {
-//         code: 'CA',
-//         label: 'Canada',
-//         phone: '1',
-//         suggested: true,
-//     },
-//     {
-//         code: 'CC',
-//         label: 'Cocos (Keeling) Islands',
-//         phone: '61',
-//     },
-//     {
-//         code: 'CD',
-//         label: 'Congo, Democratic Republic of the',
-//         phone: '243',
-//     },
-//     {
-//         code: 'CF',
-//         label: 'Central African Republic',
-//         phone: '236',
-//     },
-//     {
-//         code: 'CG',
-//         label: 'Congo, Republic of the',
-//         phone: '242',
-//     },
-//     { code: 'CH', label: 'Switzerland', phone: '41' },
-//     { code: 'CI', label: "Cote d'Ivoire", phone: '225' },
-//     { code: 'CK', label: 'Cook Islands', phone: '682' },
-//     { code: 'CL', label: 'Chile', phone: '56' },
-//     { code: 'CM', label: 'Cameroon', phone: '237' },
-//     { code: 'CN', label: 'China', phone: '86' },
-//     { code: 'CO', label: 'Colombia', phone: '57' },
-//     { code: 'CR', label: 'Costa Rica', phone: '506' },
-//     { code: 'CU', label: 'Cuba', phone: '53' },
-//     { code: 'CV', label: 'Cape Verde', phone: '238' },
-//     { code: 'CW', label: 'Curacao', phone: '599' },
-//     { code: 'CX', label: 'Christmas Island', phone: '61' },
-//     { code: 'CY', label: 'Cyprus', phone: '357' },
-//     { code: 'CZ', label: 'Czech Republic', phone: '420' },
-//     {
-//         code: 'DE',
-//         label: 'Germany',
-//         phone: '49',
-//         suggested: true,
-//     },
-//     { code: 'DJ', label: 'Djibouti', phone: '253' },
-//     { code: 'DK', label: 'Denmark', phone: '45' },
-//     { code: 'DM', label: 'Dominica', phone: '1-767' },
-//     {
-//         code: 'DO',
-//         label: 'Dominican Republic',
-//         phone: '1-809',
-//     },
-//     { code: 'DZ', label: 'Algeria', phone: '213' },
-//     { code: 'EC', label: 'Ecuador', phone: '593' },
-//     { code: 'EE', label: 'Estonia', phone: '372' },
-//     { code: 'EG', label: 'Egypt', phone: '20' },
-//     { code: 'EH', label: 'Western Sahara', phone: '212' },
-//     { code: 'ER', label: 'Eritrea', phone: '291' },
-//     { code: 'ES', label: 'Spain', phone: '34' },
-//     { code: 'ET', label: 'Ethiopia', phone: '251' },
-//     { code: 'FI', label: 'Finland', phone: '358' },
-//     { code: 'FJ', label: 'Fiji', phone: '679' },
-//     {
-//         code: 'FK',
-//         label: 'Falkland Islands (Malvinas)',
-//         phone: '500',
-//     },
-//     {
-//         code: 'FM',
-//         label: 'Micronesia, Federated States of',
-//         phone: '691',
-//     },
-//     { code: 'FO', label: 'Faroe Islands', phone: '298' },
-//     {
-//         code: 'FR',
-//         label: 'France',
-//         phone: '33',
-//         suggested: true,
-//     },
-//     { code: 'GA', label: 'Gabon', phone: '241' },
-//     { code: 'GB', label: 'United Kingdom', phone: '44' },
-//     { code: 'GD', label: 'Grenada', phone: '1-473' },
-//     { code: 'GE', label: 'Georgia', phone: '995' },
-//     { code: 'GF', label: 'French Guiana', phone: '594' },
-//     { code: 'GG', label: 'Guernsey', phone: '44' },
-//     { code: 'GH', label: 'Ghana', phone: '233' },
-//     { code: 'GI', label: 'Gibraltar', phone: '350' },
-//     { code: 'GL', label: 'Greenland', phone: '299' },
-//     { code: 'GM', label: 'Gambia', phone: '220' },
-//     { code: 'GN', label: 'Guinea', phone: '224' },
-//     { code: 'GP', label: 'Guadeloupe', phone: '590' },
-//     { code: 'GQ', label: 'Equatorial Guinea', phone: '240' },
-//     { code: 'GR', label: 'Greece', phone: '30' },
-//     {
-//         code: 'GS',
-//         label: 'South Georgia and the South Sandwich Islands',
-//         phone: '500',
-//     },
-//     { code: 'GT', label: 'Guatemala', phone: '502' },
-//     { code: 'GU', label: 'Guam', phone: '1-671' },
-//     { code: 'GW', label: 'Guinea-Bissau', phone: '245' },
-//     { code: 'GY', label: 'Guyana', phone: '592' },
-//     { code: 'HK', label: 'Hong Kong', phone: '852' },
-//     {
-//         code: 'HM',
-//         label: 'Heard Island and McDonald Islands',
-//         phone: '672',
-//     },
-//     { code: 'HN', label: 'Honduras', phone: '504' },
-//     { code: 'HR', label: 'Croatia', phone: '385' },
-//     { code: 'HT', label: 'Haiti', phone: '509' },
-//     { code: 'HU', label: 'Hungary', phone: '36' },
-//     { code: 'ID', label: 'Indonesia', phone: '62' },
-//     { code: 'IE', label: 'Ireland', phone: '353' },
-//     { code: 'IL', label: 'Israel', phone: '972' },
-//     { code: 'IM', label: 'Isle of Man', phone: '44' },
-//     { code: 'IN', label: 'India', phone: '91' },
-//     {
-//         code: 'IO',
-//         label: 'British Indian Ocean Territory',
-//         phone: '246',
-//     },
-//     { code: 'IQ', label: 'Iraq', phone: '964' },
-//     {
-//         code: 'IR',
-//         label: 'Iran, Islamic Republic of',
-//         phone: '98',
-//     },
-//     { code: 'IS', label: 'Iceland', phone: '354' },
-//     { code: 'IT', label: 'Italy', phone: '39' },
-//     { code: 'JE', label: 'Jersey', phone: '44' },
-//     { code: 'JM', label: 'Jamaica', phone: '1-876' },
-//     { code: 'JO', label: 'Jordan', phone: '962' },
-//     {
-//         code: 'JP',
-//         label: 'Japan',
-//         phone: '81',
-//         suggested: true,
-//     },
-//     { code: 'KE', label: 'Kenya', phone: '254' },
-//     { code: 'KG', label: 'Kyrgyzstan', phone: '996' },
-//     { code: 'KH', label: 'Cambodia', phone: '855' },
-//     { code: 'KI', label: 'Kiribati', phone: '686' },
-//     { code: 'KM', label: 'Comoros', phone: '269' },
-//     {
-//         code: 'KN',
-//         label: 'Saint Kitts and Nevis',
-//         phone: '1-869',
-//     },
-//     {
-//         code: 'KP',
-//         label: "Korea, Democratic People's Republic of",
-//         phone: '850',
-//     },
-//     { code: 'KR', label: 'Korea, Republic of', phone: '82' },
-//     { code: 'KW', label: 'Kuwait', phone: '965' },
-//     { code: 'KY', label: 'Cayman Islands', phone: '1-345' },
-//     { code: 'KZ', label: 'Kazakhstan', phone: '7' },
-//     {
-//         code: 'LA',
-//         label: "Lao People's Democratic Republic",
-//         phone: '856',
-//     },
-//     { code: 'LB', label: 'Lebanon', phone: '961' },
-//     { code: 'LC', label: 'Saint Lucia', phone: '1-758' },
-//     { code: 'LI', label: 'Liechtenstein', phone: '423' },
-//     { code: 'LK', label: 'Sri Lanka', phone: '94' },
-//     { code: 'LR', label: 'Liberia', phone: '231' },
-//     { code: 'LS', label: 'Lesotho', phone: '266' },
-//     { code: 'LT', label: 'Lithuania', phone: '370' },
-//     { code: 'LU', label: 'Luxembourg', phone: '352' },
-//     { code: 'LV', label: 'Latvia', phone: '371' },
-//     { code: 'LY', label: 'Libya', phone: '218' },
-//     { code: 'MA', label: 'Morocco', phone: '212' },
-//     { code: 'MC', label: 'Monaco', phone: '377' },
-//     {
-//         code: 'MD',
-//         label: 'Moldova, Republic of',
-//         phone: '373',
-//     },
-//     { code: 'ME', label: 'Montenegro', phone: '382' },
-//     {
-//         code: 'MF',
-//         label: 'Saint Martin (French part)',
-//         phone: '590',
-//     },
-//     { code: 'MG', label: 'Madagascar', phone: '261' },
-//     { code: 'MH', label: 'Marshall Islands', phone: '692' },
-//     {
-//         code: 'MK',
-//         label: 'Macedonia, the Former Yugoslav Republic of',
-//         phone: '389',
-//     },
-//     { code: 'ML', label: 'Mali', phone: '223' },
-//     { code: 'MM', label: 'Myanmar', phone: '95' },
-//     { code: 'MN', label: 'Mongolia', phone: '976' },
-//     { code: 'MO', label: 'Macao', phone: '853' },
-//     {
-//         code: 'MP',
-//         label: 'Northern Mariana Islands',
-//         phone: '1-670',
-//     },
-//     { code: 'MQ', label: 'Martinique', phone: '596' },
-//     { code: 'MR', label: 'Mauritania', phone: '222' },
-//     { code: 'MS', label: 'Montserrat', phone: '1-664' },
-//     { code: 'MT', label: 'Malta', phone: '356' },
-//     { code: 'MU', label: 'Mauritius', phone: '230' },
-//     { code: 'MV', label: 'Maldives', phone: '960' },
-//     { code: 'MW', label: 'Malawi', phone: '265' },
-//     { code: 'MX', label: 'Mexico', phone: '52' },
-//     { code: 'MY', label: 'Malaysia', phone: '60' },
-//     { code: 'MZ', label: 'Mozambique', phone: '258' },
-//     { code: 'NA', label: 'Namibia', phone: '264' },
-//     { code: 'NC', label: 'New Caledonia', phone: '687' },
-//     { code: 'NE', label: 'Niger', phone: '227' },
-//     { code: 'NF', label: 'Norfolk Island', phone: '672' },
-//     { code: 'NG', label: 'Nigeria', phone: '234' },
-//     { code: 'NI', label: 'Nicaragua', phone: '505' },
-//     { code: 'NL', label: 'Netherlands', phone: '31' },
-//     { code: 'NO', label: 'Norway', phone: '47' },
-//     { code: 'NP', label: 'Nepal', phone: '977' },
-//     { code: 'NR', label: 'Nauru', phone: '674' },
-//     { code: 'NU', label: 'Niue', phone: '683' },
-//     { code: 'NZ', label: 'New Zealand', phone: '64' },
-//     { code: 'OM', label: 'Oman', phone: '968' },
-//     { code: 'PA', label: 'Panama', phone: '507' },
-//     { code: 'PE', label: 'Peru', phone: '51' },
-//     { code: 'PF', label: 'French Polynesia', phone: '689' },
-//     { code: 'PG', label: 'Papua New Guinea', phone: '675' },
-//     { code: 'PH', label: 'Philippines', phone: '63' },
-//     { code: 'PK', label: 'Pakistan', phone: '92' },
-//     { code: 'PL', label: 'Poland', phone: '48' },
-//     {
-//         code: 'PM',
-//         label: 'Saint Pierre and Miquelon',
-//         phone: '508',
-//     },
-//     { code: 'PN', label: 'Pitcairn', phone: '870' },
-//     { code: 'PR', label: 'Puerto Rico', phone: '1' },
-//     {
-//         code: 'PS',
-//         label: 'Palestine, State of',
-//         phone: '970',
-//     },
-//     { code: 'PT', label: 'Portugal', phone: '351' },
-//     { code: 'PW', label: 'Palau', phone: '680' },
-//     { code: 'PY', label: 'Paraguay', phone: '595' },
-//     { code: 'QA', label: 'Qatar', phone: '974' },
-//     { code: 'RE', label: 'Reunion', phone: '262' },
-//     { code: 'RO', label: 'Romania', phone: '40' },
-//     { code: 'RS', label: 'Serbia', phone: '381' },
-//     { code: 'RU', label: 'Russian Federation', phone: '7' },
-//     { code: 'RW', label: 'Rwanda', phone: '250' },
-//     { code: 'SA', label: 'Saudi Arabia', phone: '966' },
-//     { code: 'SB', label: 'Solomon Islands', phone: '677' },
-//     { code: 'SC', label: 'Seychelles', phone: '248' },
-//     { code: 'SD', label: 'Sudan', phone: '249' },
-//     { code: 'SE', label: 'Sweden', phone: '46' },
-//     { code: 'SG', label: 'Singapore', phone: '65' },
-//     { code: 'SH', label: 'Saint Helena', phone: '290' },
-//     { code: 'SI', label: 'Slovenia', phone: '386' },
-//     {
-//         code: 'SJ',
-//         label: 'Svalbard and Jan Mayen',
-//         phone: '47',
-//     },
-//     { code: 'SK', label: 'Slovakia', phone: '421' },
-//     { code: 'SL', label: 'Sierra Leone', phone: '232' },
-//     { code: 'SM', label: 'San Marino', phone: '378' },
-//     { code: 'SN', label: 'Senegal', phone: '221' },
-//     { code: 'SO', label: 'Somalia', phone: '252' },
-//     { code: 'SR', label: 'Suriname', phone: '597' },
-//     { code: 'SS', label: 'South Sudan', phone: '211' },
-//     {
-//         code: 'ST',
-//         label: 'Sao Tome and Principe',
-//         phone: '239',
-//     },
-//     { code: 'SV', label: 'El Salvador', phone: '503' },
-//     {
-//         code: 'SX',
-//         label: 'Sint Maarten (Dutch part)',
-//         phone: '1-721',
-//     },
-//     {
-//         code: 'SY',
-//         label: 'Syrian Arab Republic',
-//         phone: '963',
-//     },
-//     { code: 'SZ', label: 'Swaziland', phone: '268' },
-//     {
-//         code: 'TC',
-//         label: 'Turks and Caicos Islands',
-//         phone: '1-649',
-//     },
-//     { code: 'TD', label: 'Chad', phone: '235' },
-//     {
-//         code: 'TF',
-//         label: 'French Southern Territories',
-//         phone: '262',
-//     },
-//     { code: 'TG', label: 'Togo', phone: '228' },
-//     { code: 'TH', label: 'Thailand', phone: '66' },
-//     { code: 'TJ', label: 'Tajikistan', phone: '992' },
-//     { code: 'TK', label: 'Tokelau', phone: '690' },
-//     { code: 'TL', label: 'Timor-Leste', phone: '670' },
-//     { code: 'TM', label: 'Turkmenistan', phone: '993' },
-//     { code: 'TN', label: 'Tunisia', phone: '216' },
-//     { code: 'TO', label: 'Tonga', phone: '676' },
-//     { code: 'TR', label: 'Turkey', phone: '90' },
-//     {
-//         code: 'TT',
-//         label: 'Trinidad and Tobago',
-//         phone: '1-868',
-//     },
-//     { code: 'TV', label: 'Tuvalu', phone: '688' },
-//     {
-//         code: 'TW',
-//         label: 'Taiwan',
-//         phone: '886',
-//     },
-//     {
-//         code: 'TZ',
-//         label: 'United Republic of Tanzania',
-//         phone: '255',
-//     },
-//     { code: 'UA', label: 'Ukraine', phone: '380' },
-//     { code: 'UG', label: 'Uganda', phone: '256' },
-//     {
-//         code: 'US',
-//         label: 'United States',
-//         phone: '1',
-//         suggested: true,
-//     },
-//     { code: 'UY', label: 'Uruguay', phone: '598' },
-//     { code: 'UZ', label: 'Uzbekistan', phone: '998' },
-//     {
-//         code: 'VA',
-//         label: 'Holy See (Vatican City State)',
-//         phone: '379',
-//     },
-//     {
-//         code: 'VC',
-//         label: 'Saint Vincent and the Grenadines',
-//         phone: '1-784',
-//     },
-//     { code: 'VE', label: 'Venezuela', phone: '58' },
-//     {
-//         code: 'VG',
-//         label: 'British Virgin Islands',
-//         phone: '1-284',
-//     },
-//     {
-//         code: 'VI',
-//         label: 'US Virgin Islands',
-//         phone: '1-340',
-//     },
-//     { code: 'VN', label: 'Vietnam', phone: '84' },
-//     { code: 'VU', label: 'Vanuatu', phone: '678' },
-//     { code: 'WF', label: 'Wallis and Futuna', phone: '681' },
-//     { code: 'WS', label: 'Samoa', phone: '685' },
-//     { code: 'XK', label: 'Kosovo', phone: '383' },
-//     { code: 'YE', label: 'Yemen', phone: '967' },
-//     { code: 'YT', label: 'Mayotte', phone: '262' },
-//     { code: 'ZA', label: 'South Africa', phone: '27' },
-//     { code: 'ZM', label: 'Zambia', phone: '260' },
-//     { code: 'ZW', label: 'Zimbabwe', phone: '263' },
-// ];
-
-// ************************************************
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { AddPersonThunk } from "../../redux/Person/addPersonThunk";
 import { useNavigate, useParams } from "react-router-dom";
@@ -623,7 +10,6 @@ import {
   Button, 
   FormControl, 
   FormControlLabel, 
-  FormLabel, 
   InputAdornment, 
   InputLabel, 
   MenuItem, 
@@ -640,25 +26,41 @@ import {
   StepLabel,
   Grid,
   Divider,
-  Alert
+  Alert,
+  useTheme,
+  ThemeProvider,
+  createTheme
 } from "@mui/material";
 import { styled } from '@mui/material/styles';
 import Autocomplete from '@mui/material/Autocomplete';
 import { Visibility, VisibilityOff } from "@mui/icons-material";
-import { FaUser, FaIdCard, FaPhone, FaMapMarkerAlt, FaUserGraduate } from 'react-icons/fa';
+import { FaUser, FaIdCard, FaPhone, FaMapMarkerAlt, FaUserGraduate, FaBook, FaCalendarAlt, FaVenusMars } from 'react-icons/fa';
 
+// עיצוב מותאם לקומפוננטות
 const StyledPaper = styled(Paper)(({ theme }) => ({
   padding: theme.spacing(4),
   borderRadius: 16,
   boxShadow: '0 8px 24px rgba(0, 0, 0, 0.12)',
-  background: 'linear-gradient(145deg, #ffffff, #f5f7fa)',
+  background: 'linear-gradient(145deg, #fffcf2, #fff9e6)',
+  position: 'relative',
+  overflow: 'hidden',
+  '&::before': {
+    content: '""',
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    width: '100%',
+    height: '6px',
+    background: 'linear-gradient(135deg, #4f46e5 0%, #7c3aed 50%, #db2777 100%)'
+  }
 }));
 
 const SectionTitle = styled(Typography)(({ theme }) => ({
   position: 'relative',
-  marginBottom: theme.spacing(4),
+  marginBottom: theme.spacing(3),
   paddingBottom: theme.spacing(1),
   fontWeight: 600,
+  color: '#1e293b',
   '&:after': {
     content: '""',
     position: 'absolute',
@@ -666,7 +68,7 @@ const SectionTitle = styled(Typography)(({ theme }) => ({
     left: 0,
     width: '50px',
     height: '3px',
-    backgroundColor: theme.palette.primary.main,
+    background: 'linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%)',
   }
 }));
 
@@ -674,12 +76,110 @@ const IconBox = styled(Box)(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
   marginBottom: theme.spacing(1),
-  color: theme.palette.primary.main,
+  color: '#7c3aed',
   '& svg': {
     marginRight: theme.spacing(1),
     fontSize: '1.25rem',
   }
 }));
+
+const filterOptions = (options, { inputValue }) => {
+  const inputValueHebrew = inputValue.trim().toLowerCase();
+  
+  if (inputValueHebrew === '') {
+    return options;
+  }
+  
+  return options.filter(option => 
+    option.label.toLowerCase().includes(inputValueHebrew)
+  );
+};
+
+const StyledTextField = styled(TextField)(({ theme }) => ({
+  '& .MuiOutlinedInput-root': {
+    '&:hover fieldset': {
+      borderColor: '#7c3aed',
+    },
+    '&.Mui-focused fieldset': {
+      borderColor: '#7c3aed',
+    },
+  },
+  '& .MuiInputLabel-root.Mui-focused': {
+    color: '#7c3aed',
+  }
+}));
+
+const StyledSelect = styled(Select)(({ theme }) => ({
+  '& .MuiOutlinedInput-notchedOutline': {
+    '&:hover': {
+      borderColor: '#7c3aed',
+    },
+  },
+  '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+    borderColor: '#7c3aed',
+  }
+}));
+
+const StyledButton = styled(Button)(({ theme, variant }) => ({
+  borderRadius: 8,
+  padding: '10px 24px',
+  fontWeight: 600,
+  textTransform: 'none',
+  boxShadow: variant === 'contained' ? '0 4px 14px rgba(124, 58, 237, 0.3)' : 'none',
+  background: variant === 'contained' ? 'linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%)' : 'transparent',
+  border: variant === 'outlined' ? '2px solid #7c3aed' : 'none',
+  color: variant === 'contained' ? '#ffffff' : '#7c3aed',
+  transition: 'all 0.3s ease',
+  '&:hover': {
+    background: variant === 'contained' ? 'linear-gradient(135deg, #4338ca 0%, #6d28d9 100%)' : 'rgba(124, 58, 237, 0.08)',
+    boxShadow: variant === 'contained' ? '0 6px 20px rgba(124, 58, 237, 0.4)' : 'none',
+    transform: 'translateY(-2px)',
+  }
+}));
+
+const StyledStepper = styled(Stepper)(({ theme }) => ({
+  '& .MuiStepIcon-root': {
+    color: '#e2e8f0',
+    '&.Mui-active': {
+      color: '#7c3aed',
+    },
+    '&.Mui-completed': {
+      color: '#4f46e5',
+    }
+  },
+  '& .MuiStepLabel-label': {
+    fontWeight: 500,
+    '&.Mui-active': {
+      color: '#1e293b',
+      fontWeight: 600,
+    }
+  }
+}));
+
+// יצירת ערכת נושא מותאמת
+const getCustomTheme = (theme) => createTheme({
+  ...theme,
+  palette: {
+    primary: {
+      main: '#7c3aed',
+    },
+    secondary: {
+      main: '#db2777',
+    },
+  },
+  typography: {
+    fontFamily: '"Heebo", "Roboto", "Arial", sans-serif',
+  },
+  components: {
+    MuiInputLabel: {
+      styleOverrides: {
+        root: {
+          color: '#64748b',
+        },
+      },
+    },
+  },
+});
 
 export const Logon = () => {
   const dispatch = useDispatch();
@@ -693,15 +193,31 @@ export const Logon = () => {
     status: 'single', 
     cellularTelephone: '', 
     telephone: '', 
-    country: '', 
-    city: '', 
+    country: null, // שינינו לnull במקום מחרוזת ריקה
+    city: null,    // שינינו לnull במקום מחרוזת ריקה
     email: '', 
     role: '', 
     denomination: 'generic' 
   });
   const [activeStep, setActiveStep] = useState(0);
   const [error, setError] = useState('');
+  const [availableCities, setAvailableCities] = useState([]);
   const navi = useNavigate();
+  const theme = useTheme();
+  const customTheme = getCustomTheme(theme);
+
+  // עדכון רשימת הערים כאשר המדינה משתנה
+  useEffect(() => {
+    if (person.country && person.country.code) {
+      setAvailableCities(citiesByCountry[person.country.code] || []);
+      // אם העיר הנוכחית לא שייכת למדינה החדשה, נאפס אותה
+      if (person.city && !citiesByCountry[person.country.code]?.some(city => city.code === person.city.code)) {
+        setPerson(prev => ({ ...prev, city: null }));
+      }
+    } else {
+      setAvailableCities([]);
+    }
+  }, [person.country]);
 
   const steps = ['פרטים אישיים', 'פרטי קשר', 'העדפות לימוד'];
 
@@ -732,7 +248,14 @@ export const Logon = () => {
       return;
     }
     
-    dispatch(AddPersonThunk(person));
+    // המרת אובייקטים למחרוזות לפני שליחה לשרת
+    const personToSubmit = {
+      ...person,
+      country: person.country ? person.country.label : '',
+      city: person.city ? person.city.label : ''
+    };
+    
+    dispatch(AddPersonThunk(personToSubmit));
     if (person.role === "request")
       navi(`/request/${person.id}`);
     else
@@ -740,307 +263,640 @@ export const Logon = () => {
   };
 
   return (
-    <Container maxWidth="md" className="fade-in">
-      <Box sx={{ py: 5 }}>
-        <Typography variant="h3" component="h1" align="center" gutterBottom sx={{ fontWeight: 700, color: '#3f51b5', mb: 4 }}>
-          ברוכים הבאים, {param.firstName} {param.lastName}
-        </Typography>
-        
-        <StyledPaper elevation={3}>
-          <Stepper activeStep={activeStep} alternativeLabel sx={{ mb: 5 }}>
-            {steps.map((label) => (
-              <Step key={label}>
-                <StepLabel>{label}</StepLabel>
-              </Step>
-            ))}
-          </Stepper>
+    <ThemeProvider theme={customTheme}>
+      <Box sx={{ 
+        minHeight: '100vh', 
+        background: 'linear-gradient(135deg, #fffcf2 0%, #fff9e6 100%)',
+        py: 6
+      }}>
+        <Container maxWidth="md" className="fade-in">
+          <Box sx={{ mb: 6, textAlign: 'center' }}>
+            <Typography 
+              variant="h3" 
+              component="h1" 
+              sx={{ 
+                fontWeight: 700, 
+                color: '#1e293b',
+                mb: 2,
+                background: 'linear-gradient(135deg, #4f46e5 0%, #7c3aed 50%, #db2777 100%)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent'
+              }}
+            >
+              ברוכים הבאים, {param.firstName} {param.lastName}
+            </Typography>
+            <Typography variant="h6" color="text.secondary" sx={{ maxWidth: '600px', mx: 'auto' }}>
+              אנו שמחים שבחרתם להצטרף לקהילת חברותא קונקט. אנא מלאו את הפרטים הבאים כדי שנוכל להתאים לכם חברותא מושלמת.
+            </Typography>
+          </Box>
           
-          {error && (
-            <Alert severity="error" sx={{ mb: 3 }}>{error}</Alert>
-          )}
+          <StyledPaper elevation={3}>
+            <StyledStepper activeStep={activeStep} alternativeLabel sx={{ mb: 5 }}>
+              {steps.map((label) => (
+                <Step key={label}>
+                  <StepLabel>{label}</StepLabel>
+                </Step>
+              ))}
+            </StyledStepper>
+            
+            {error && (
+              <Alert 
+                severity="error" 
+                sx={{ 
+                  mb: 3, 
+                  borderRadius: 2,
+                  '& .MuiAlert-icon': {
+                    color: '#db2777'
+                  }
+                }}
+              >
+                {error}
+              </Alert>
+            )}
 
-          {activeStep === 0 && (
-            <Box>
-              <IconBox>
-                <FaUser />
-                <SectionTitle variant="h5">פרטים אישיים</SectionTitle>
-              </IconBox>
-              <Grid container spacing={3}>
-                <Grid item xs={12} md={6}>
-                  <TextField 
-                    value={person.birthDate} 
-                    type="date" 
-                    id="birthDate" 
-                    label="תאריך לידה" 
-                    variant="outlined" 
-                    fullWidth
-                    required
-                    InputLabelProps={{ shrink: true }}
-                    onChange={x => setPerson({ ...person, birthDate: x.target.value })} 
-                  />
-                </Grid>
-                <Grid item xs={12} md={6}>
-                  <FormControl fullWidth variant="outlined" required>
-                    <InputLabel id="gender-label">מגדר</InputLabel>
-                    <Select
-                      labelId="gender-label"
-                      id="gender"
-                      value={person.gender}
-                      label="מגדר"
-                      onChange={e => setPerson({ ...person, gender: e.target.value })}
-                    >
-                      <MenuItem value={"male"}>זכר</MenuItem>
-                      <MenuItem value={"female"}>נקבה</MenuItem>
-                    </Select>
-                  </FormControl>
-                </Grid>
-                <Grid item xs={12} md={6}>
-                  <FormControl fullWidth variant="outlined" required>
-                    <InputLabel id="status-label">מצב משפחתי</InputLabel>
-                    <Select
-                      labelId="status-label"
-                      id="status"
-                      value={person.status}
-                      label="מצב משפחתי"
-                      onChange={e => setPerson({ ...person, status: e.target.value })}
-                    >
-                      <MenuItem value={"single"}>רווק/ה</MenuItem>
-                      <MenuItem value={"married"}>נשוי/אה</MenuItem>
-                      <MenuItem value={"divorce"}>גרוש/ה</MenuItem>
-                      <MenuItem value={"widower"}>אלמן/ה</MenuItem>
-                    </Select>
-                  </FormControl>
-                </Grid>
-                <Grid item xs={12} md={6}>
-                  <FormControl fullWidth variant="outlined" required>
-                    <InputLabel id="denomination-label">זרם</InputLabel>
-                    <Select
-                      labelId="denomination-label"
-                      id="denomination"
-                      value={person.denomination}
-                      label="זרם"
-                      onChange={e => setPerson({ ...person, denomination: e.target.value })}
-                    >
-                      <MenuItem value={"spaniard"}>ספרדי</MenuItem>
-                      <MenuItem value={"ashkenazi"}>אשכנזי</MenuItem>
-                      <MenuItem value={"yemeni"}>תימני</MenuItem>
-                      <MenuItem value={"moroccan"}>מרוקאי</MenuItem>
-                      <MenuItem value={"generic"}>כללי</MenuItem>
-                      <MenuItem value={"another"}>אחר</MenuItem>
-                    </Select>
-                  </FormControl>
-                </Grid>
-              </Grid>
-            </Box>
-          )}
-
-          {activeStep === 1 && (
-            <Box>
-              <IconBox>
-                <FaPhone />
-                <SectionTitle variant="h5">פרטי קשר</SectionTitle>
-              </IconBox>
-              <Grid container spacing={3}>
-                <Grid item xs={12} md={6}>
-                  <TextField 
-                    value={person.cellularTelephone} 
-                    id="cellularTelephone" 
-                    label="טלפון נייד" 
-                    variant="outlined" 
-                    fullWidth
-                    required
-                    onChange={x => setPerson({ ...person, cellularTelephone: x.target.value })} 
-                  />
-                </Grid>
-                <Grid item xs={12} md={6}>
-                  <TextField 
-                    value={person.telephone} 
-                    id="telephone" 
-                    label="טלפון קווי" 
-                    variant="outlined" 
-                    fullWidth
-                    onChange={x => setPerson({ ...person, telephone: x.target.value })} 
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <TextField
-                    id="email"
-                    label="דואר אלקטרוני"
-                    variant="outlined"
-                    fullWidth
-                    required
-                    onChange={x => setPerson({ ...person, email: x.target.value + "@gmail.com" })}
-                    InputProps={{
-                      endAdornment: <InputAdornment position="end">@gmail.com</InputAdornment>,
-                    }}
-                  />
-                </Grid>
-                <Grid item xs={12} md={6}>
-                  <Autocomplete
-                    id="country-select"
-                    options={countries}
-                    autoHighlight
-                    fullWidth
-                    getOptionLabel={(option) => option.label}
-                    renderOption={(props, option) => (
-                      <Box
-                        component="li"
-                        sx={{ '& > img': { mr: 2, flexShrink: 0 } }}
-                        {...props}
+            {activeStep === 0 && (
+              <Box sx={{ px: { xs: 1, md: 3 } }}>
+                <IconBox>
+                  <FaUser />
+                  <SectionTitle variant="h5">פרטים אישיים</SectionTitle>
+                </IconBox>
+                <Grid container spacing={3}>
+                  <Grid item xs={12} md={6}>
+                    <Box sx={{ display: 'flex', alignItems: 'flex-end', mb: 1 }}>
+                      <FaCalendarAlt style={{ color: '#7c3aed', marginRight: '8px' }} />
+                      <Typography variant="body2" color="text.secondary">תאריך לידה</Typography>
+                    </Box>
+                    <StyledTextField 
+                      value={person.birthDate} 
+                      type="date" 
+                      id="birthDate" 
+                      variant="outlined" 
+                      fullWidth
+                      required
+                      InputLabelProps={{ shrink: true }}
+                      onChange={x => setPerson({ ...person, birthDate: x.target.value })} 
+                    />
+                  </Grid>
+                  <Grid item xs={12} md={6}>
+                    <Box sx={{ display: 'flex', alignItems: 'flex-end', mb: 1 }}>
+                      <FaVenusMars style={{ color: '#7c3aed', marginRight: '8px' }} />
+                      <Typography variant="body2" color="text.secondary">מגדר</Typography>
+                    </Box>
+                    <FormControl fullWidth variant="outlined" required>
+                      <InputLabel id="gender-label">מגדר</InputLabel>
+                      <StyledSelect
+                        labelId="gender-label"
+                        id="gender"
+                        value={person.gender}
+                        label="מגדר"
+                        onChange={e => setPerson({ ...person, gender: e.target.value })}
                       >
-                        <img
-                          loading="lazy"
-                          width="20"
-                          srcSet={`https://flagcdn.com/w40/${option.code.toLowerCase()}.png 2x`}
-                          src={`https://flagcdn.com/w20/${option.code.toLowerCase()}.png`}
-                          alt=""
-                        />
-                        {option.label} ({option.code})
-                      </Box>
-                    )}
-                    renderInput={(params) => (
-                      <TextField
-                        {...params}
-                        label="מדינה"
-                        variant="outlined"
-                        required
-                        inputProps={{
-                          ...params.inputProps,
-                          autoComplete: 'new-password',
-                        }}
-                      />
-                    )}
-                    onChange={(event, newValue) => {
-                      setPerson({ ...person, country: newValue ? newValue.label : '' });
-                    }}
-                  />
+                        <MenuItem value={"male"}>זכר</MenuItem>
+                        <MenuItem value={"female"}>נקבה</MenuItem>
+                      </StyledSelect>
+                    </FormControl>
+                  </Grid>
+                  <Grid item xs={12} md={6}>
+                    <Box sx={{ display: 'flex', alignItems: 'flex-end', mb: 1 }}>
+                      <FaIdCard style={{ color: '#7c3aed', marginRight: '8px' }} />
+                      <Typography variant="body2" color="text.secondary">מצב משפחתי</Typography>
+                    </Box>
+                    <FormControl fullWidth variant="outlined" required>
+                      <InputLabel id="status-label">מצב משפחתי</InputLabel>
+                      <StyledSelect
+                        labelId="status-label"
+                        id="status"
+                        value={person.status}
+                        label="מצב משפחתי"
+                        onChange={e => setPerson({ ...person, status: e.target.value })}
+                      >
+                        <MenuItem value={"single"}>רווק/ה</MenuItem>
+                        <MenuItem value={"married"}>נשוי/אה</MenuItem>
+                        <MenuItem value={"divorce"}>גרוש/ה</MenuItem>
+                        <MenuItem value={"widower"}>אלמן/ה</MenuItem>
+                      </StyledSelect>
+                    </FormControl>
+                  </Grid>
+                  <Grid item xs={12} md={6}>
+                    <Box sx={{ display: 'flex', alignItems: 'flex-end', mb: 1 }}>
+                      <FaBook style={{ color: '#7c3aed', marginRight: '8px' }} />
+                      <Typography variant="body2" color="text.secondary">זרם</Typography>
+                    </Box>
+                    <FormControl fullWidth variant="outlined" required>
+                      <InputLabel id="denomination-label">זרם</InputLabel>
+                      <StyledSelect
+                        labelId="denomination-label"
+                        id="denomination"
+                        value={person.denomination}
+                        label="זרם"
+                        onChange={e => setPerson({ ...person, denomination: e.target.value })}
+                      >
+                        <MenuItem value={"spaniard"}>ספרדי</MenuItem>
+                        <MenuItem value={"ashkenazi"}>אשכנזי</MenuItem>
+                        <MenuItem value={"yemeni"}>תימני</MenuItem>
+                        <MenuItem value={"moroccan"}>מרוקאי</MenuItem>
+                        <MenuItem value={"generic"}>כללי</MenuItem>
+                        <MenuItem value={"another"}>אחר</MenuItem>
+                      </StyledSelect>
+                    </FormControl>
+                  </Grid>
                 </Grid>
-                <Grid item xs={12} md={6}>
-                  <TextField 
-                    value={person.city} 
-                    id="city" 
-                    label="עיר" 
-                    variant="outlined" 
-                    fullWidth
-                    required
-                    onChange={x => setPerson({ ...person, city: x.target.value })} 
-                  />
-                </Grid>
-              </Grid>
-            </Box>
-          )}
+              </Box>
+            )}
 
-          {activeStep === 2 && (
-            <Box>
-              <IconBox>
-                <FaUserGraduate />
-                <SectionTitle variant="h5">העדפות לימוד</SectionTitle>
-              </IconBox>
-              <Box sx={{ mb: 4 }}>
-                <Typography variant="h6" gutterBottom>
-                  בחרו את תפקידכם במערכת
-                </Typography>
-                <Typography variant="body2" color="textSecondary" paragraph>
-                  אנא בחרו האם אתם מעוניינים ללמוד (מבקש) או ללמד (מציע)
-                </Typography>
-                <FormControl component="fieldset" required sx={{ mt: 2 }}>
-                  <RadioGroup
-                    row
-                    value={person.role}
-                    onChange={e => setPerson({ ...person, role: e.target.value })}
+{activeStep === 1 && (
+        <Box sx={{ px: { xs: 1, md: 3 } }}>
+          <IconBox>
+            <FaPhone />
+            <SectionTitle variant="h5">פרטי קשר</SectionTitle>
+          </IconBox>
+          <Grid container spacing={3}>
+                  <Grid item xs={12} md={6}>
+                    <TextField 
+                      value={person.cellularTelephone} 
+                      id="cellularTelephone" 
+                      label="טלפון נייד" 
+                      variant="outlined" 
+                      fullWidth
+                      required
+                      onChange={x => setPerson({ ...person, cellularTelephone: x.target.value })} 
+                    />
+                  </Grid>
+                  <Grid item xs={12} md={6}>
+                    <TextField 
+                      value={person.telephone} 
+                      id="telephone" 
+                      label="טלפון קווי" 
+                      variant="outlined" 
+                      fullWidth
+                      onChange={x => setPerson({ ...person, telephone: x.target.value })} 
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <TextField
+                      id="email"
+                      label="דואר אלקטרוני"
+                      variant="outlined"
+                      fullWidth
+                      required
+                      onChange={x => setPerson({ ...person, email: x.target.value + "@gmail.com" })}
+                      InputProps={{
+                        endAdornment: <InputAdornment position="end">@gmail.com</InputAdornment>,
+                      }}
+                    />
+                  </Grid>
+                  <Grid item xs={12} md={6}>
+  <Box sx={{ display: 'flex', alignItems: 'flex-end', mb: 1 }}>
+    <FaMapMarkerAlt style={{ color: '#7c3aed', marginRight: '8px' }} />
+    <Typography variant="body2" color="text.secondary">מדינה</Typography>
+  </Box>
+  <Autocomplete
+    id="country"
+    options={countries}
+    value={person.country}
+    onChange={(event, newValue) => {
+      setPerson({ ...person, country: newValue, city: null });
+    }}
+    getOptionLabel={(option) => option.label || ''}
+    isOptionEqualToValue={(option, value) => option.code === value?.code}
+    renderInput={(params) => (
+      <StyledTextField
+        {...params}
+        label="מדינה"
+        required
+        fullWidth
+        error={error && !person.country}
+        helperText={error && !person.country ? "יש לבחור מדינה" : ""}
+        dir="rtl"
+        InputProps={{
+          ...params.InputProps,
+          sx: { 
+            direction: 'rtl',
+            '& .MuiAutocomplete-endAdornment': {
+              right: 'auto',
+              left: '9px',
+            }
+          }
+        }}
+      />
+    )}
+    renderOption={(props, option) => (
+      <Box component="li" {...props} sx={{ display: 'flex', alignItems: 'center', direction: 'rtl' }}>
+        <Box 
+          component="img" 
+          loading="lazy"
+          width="20"
+          height="14"
+          src={`https://purecatamphetamine.github.io/country-flag-icons/3x2/${option.code}.svg`}
+          alt=""
+          sx={{ mr: 1 }}
+        />
+        {option.label}
+      </Box>
+    )}
+    componentsProps={{
+      popper: {
+        sx: { direction: 'rtl' }
+      }
+    }}
+    autoHighlight
+    openOnFocus
+  />
+</Grid>
+
+<Grid item xs={12} md={6}>
+  <Box sx={{ display: 'flex', alignItems: 'flex-end', mb: 1 }}>
+    <FaMapMarkerAlt style={{ color: '#7c3aed', marginRight: '8px' }} />
+    <Typography variant="body2" color="text.secondary">עיר</Typography>
+  </Box>
+  <Autocomplete
+    id="city"
+    options={availableCities}
+    filterOptions={filterOptions}
+    value={person.city}
+    onChange={(event, newValue) => {
+      setPerson({ ...person, city: newValue });
+    }}
+    getOptionLabel={(option) => option.label || ''}
+    isOptionEqualToValue={(option, value) => option.code === value.code}
+    disabled={!person.country}
+    renderInput={(params) => (
+      <StyledTextField
+        {...params}
+        label="עיר"
+        required
+        fullWidth
+        error={error && !person.city && person.country}
+        helperText={
+          !person.country 
+            ? "יש לבחור מדינה תחילה" 
+            : error && !person.city 
+              ? "יש לבחור עיר" 
+              : ""
+        }
+        dir="rtl" 
+        InputProps={{
+          ...params.InputProps,
+          sx: { 
+            direction: 'rtl', 
+            '& .MuiAutocomplete-endAdornment': {
+              right: 'auto', 
+              left: '9px', 
+            }
+          }
+        }}
+      />
+    )}
+    renderOption={(props, option) => (
+      <Box component="li" {...props} sx={{ direction: 'rtl' }}>
+        {option.label}
+      </Box>
+    )}
+    noOptionsText="לא נמצאו ערים"
+    autoHighlight
+    openOnFocus
+    disablePortal
+    sx={{ 
+      '& .MuiAutocomplete-endAdornment': { 
+        right: 'auto', 
+        left: 9 
+      } 
+    }}
+  />
+</Grid>
+          </Grid>
+        </Box>
+      )}
+      
+
+            {activeStep === 2 && (
+              <Box>
+                <IconBox>
+                  <FaUserGraduate />
+                  <SectionTitle variant="h5">העדפות לימוד</SectionTitle>
+                </IconBox>
+                <Box sx={{ mb: 4 }}>
+                  <Typography variant="h6" gutterBottom>
+                    בחרו את תפקידכם במערכת
+                  </Typography>
+                  <Typography variant="body2" color="textSecondary" paragraph>
+                    אנא בחרו האם אתם מעוניינים ללמוד (מבקש) או ללמד (מציע)
+                  </Typography>
+                  <FormControl component="fieldset" required sx={{ mt: 2 }}>
+                    <RadioGroup
+                      row
+                      value={person.role}
+                      onChange={e => setPerson({ ...person, role: e.target.value })}
+                    >
+                      <FormControlLabel 
+                        value="offer" 
+                        control={<Radio color="primary" />} 
+                        label={
+                          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                            <Typography variant="body1" sx={{ fontWeight: 500 }}>מציע (מלמד)</Typography>
+                          </Box>
+                        } 
+                        sx={{ mr: 4 }}
+                      />
+                      <FormControlLabel 
+                        value="request" 
+                        control={
+                          <Radio color="primary" />
+                        } 
+                        label={
+                          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                            <Typography variant="body1" sx={{ fontWeight: 500 }}>מבקש (לומד)</Typography>
+                          </Box>
+                        } 
+                      />
+                    </RadioGroup>
+                  </FormControl>
+                </Box>
+              </Box>
+            )}
+
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 5 }}>
+              <Button
+                disabled={activeStep === 0}
+                onClick={handleBack}
+                variant="outlined"
+                sx={{ borderRadius: 2, px: 3 }}
+              >
+                חזרה
+              </Button>
+              <Box>
+                {activeStep === steps.length - 1 ? (
+                  <Button 
+                    variant="contained" 
+                    onClick={log}
+                    sx={{ 
+                      borderRadius: 2, 
+                      px: 4,
+                      backgroundColor: '#3f51b5',
+                      '&:hover': {
+                        backgroundColor: '#303f9f',
+                      }
+                    }}
                   >
-                    <FormControlLabel 
-                      value="offer" 
-                      control={<Radio color="primary" />} 
-                      label={
-                        <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                          <Typography variant="body1" sx={{ fontWeight: 500 }}>מציע (מלמד)</Typography>
-                        </Box>
-                      } 
-                      sx={{ mr: 4 }}
-                    />
-                    <FormControlLabel 
-                      value="request" 
-                      control={
-                        <Radio color="primary" />
-                      } 
-                      label={
-                        <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                          <Typography variant="body1" sx={{ fontWeight: 500 }}>מבקש (לומד)</Typography>
-                        </Box>
-                      } 
-                    />
-                  </RadioGroup>
-                </FormControl>
+                    סיום והרשמה
+                  </Button>
+                ) : (
+                  <Button 
+                    variant="contained" 
+                    onClick={handleNext}
+                    sx={{ 
+                      borderRadius: 2, 
+                      px: 3,
+                      backgroundColor: '#3f51b5',
+                      '&:hover': {
+                        backgroundColor: '#303f9f',
+                      }
+                    }}
+                  >
+                    המשך
+                  </Button>
+                )}
               </Box>
             </Box>
-          )}
-
-          <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 5 }}>
-            <Button
-              disabled={activeStep === 0}
-              onClick={handleBack}
-              variant="outlined"
-              sx={{ borderRadius: 2, px: 3 }}
-            >
-              חזרה
-            </Button>
-            <Box>
-              {activeStep === steps.length - 1 ? (
-                <Button 
-                  variant="contained" 
-                  onClick={log}
-                  sx={{ 
-                    borderRadius: 2, 
-                    px: 4,
-                    backgroundColor: '#3f51b5',
-                    '&:hover': {
-                      backgroundColor: '#303f9f',
-                    }
-                  }}
-                >
-                  סיום והרשמה
-                </Button>
-              ) : (
-                <Button 
-                  variant="contained" 
-                  onClick={handleNext}
-                  sx={{ 
-                    borderRadius: 2, 
-                    px: 3,
-                    backgroundColor: '#3f51b5',
-                    '&:hover': {
-                      backgroundColor: '#303f9f',
-                    }
-                  }}
-                >
-                  המשך
-                </Button>
-              )}
-            </Box>
-          </Box>
-        </StyledPaper>
+          </StyledPaper>
+        </Container>
       </Box>
-    </Container>
+    </ThemeProvider>
   );
 };
 
-// רשימת מדינות לבחירה
+const citiesByCountry = {
+  'IL': [
+    { code: 'JLM', label: 'ירושלים' },
+    { code: 'TLV', label: 'תל אביב' },
+    { code: 'HFA', label: 'חיפה' },
+    { code: 'BEV', label: 'באר שבע' },
+    { code: 'ASH', label: 'אשדוד' },
+    { code: 'RIS', label: 'ראשון לציון' },
+    { code: 'PET', label: 'פתח תקווה' },
+    { code: 'BNB', label: 'בני ברק' },
+    { code: 'BTY', label: 'בית שמש' },
+    { code: 'TZF', label: 'צפת' },
+    { code: 'TIB', label: 'טבריה' },
+    { code: 'ELT', label: 'אילת' },
+    { code: 'NTN', label: 'נתניה' },
+    { code: 'RHV', label: 'רחובות' },
+    { code: 'ASK', label: 'אשקלון' },
+    { code: 'MOD', label: 'מודיעין' },
+    { code: 'HAD', label: 'חדרה' },
+    { code: 'KFS', label: 'כפר סבא' }
+  ],
+  'US': [
+    { code: 'NYC', label: 'ניו יורק' },
+    { code: 'LAX', label: 'לוס אנג\'לס' },
+    { code: 'CHI', label: 'שיקגו' },
+    { code: 'MIA', label: 'מיאמי' },
+    { code: 'BOS', label: 'בוסטון' },
+    { code: 'LAK', label: 'לייקווד' },
+    { code: 'BRK', label: 'ברוקלין' },
+    { code: 'HOU', label: 'יוסטון' },
+    { code: 'PHI', label: 'פילדלפיה' },
+    { code: 'PHX', label: 'פיניקס' },
+    { code: 'SAN', label: 'סן דייגו' },
+    { code: 'DAL', label: 'דאלאס' },
+    { code: 'SEA', label: 'סיאטל' },
+    { code: 'DEN', label: 'דנבר' },
+    { code: 'BAL', label: 'בולטימור' },
+    { code: 'MON', label: 'מונסי' },
+    { code: 'ATL', label: 'אטלנטה' },
+    { code: 'DET', label: 'דטרויט' }
+  ],
+  'GB': [
+    { code: 'LON', label: 'לונדון' },
+    { code: 'MAN', label: 'מנצ\'סטר' },
+    { code: 'BIR', label: 'ברמינגהם' },
+    { code: 'GLS', label: 'גלזגו' },
+    { code: 'LDS', label: 'לידס' },
+    { code: 'EDI', label: 'אדינבורו' },
+    { code: 'LIV', label: 'ליברפול' },
+    { code: 'BRI', label: 'בריסטול' },
+    { code: 'GOL', label: 'גולדרס גרין' },
+    { code: 'STA', label: 'סטמפורד היל' }
+  ],
+  'FR': [
+    { code: 'PAR', label: 'פריז' },
+    { code: 'MAR', label: 'מרסיי' },
+    { code: 'LYO', label: 'ליון' },
+    { code: 'STR', label: 'שטרסבורג' },
+    { code: 'NIC', label: 'ניס' },
+    { code: 'BOR', label: 'בורדו' },
+    { code: 'TOU', label: 'טולוז' },
+    { code: 'LIL', label: 'ליל' },
+    { code: 'MET', label: 'מץ' }
+  ],
+  'CA': [
+    { code: 'TOR', label: 'טורונטו' },
+    { code: 'MON', label: 'מונטריאול' },
+    { code: 'VAN', label: 'ונקובר' },
+    { code: 'OTT', label: 'אוטווה' },
+    { code: 'CAL', label: 'קלגרי' },
+    { code: 'EDM', label: 'אדמונטון' },
+    { code: 'WIN', label: 'ויניפג' },
+    { code: 'QUE', label: 'קוויבק סיטי' },
+    { code: 'HAL', label: 'הליפקס' }
+  ],
+  'CN': [
+    { code: 'BEI', label: 'בייג\'ינג' },
+    { code: 'SHA', label: 'שנגחאי' },
+    { code: 'HON', label: 'הונג קונג' },
+    { code: 'SHE', label: 'שנזן' },
+    { code: 'GUA', label: 'גואנגז\'ו' },
+    { code: 'CHE', label: 'צ\'נגדו' },
+    { code: 'NAN', label: 'נאנג\'ינג' },
+    { code: 'WUH', label: 'ווהאן' },
+    { code: 'TIA', label: 'טיאנג\'ין' },
+    { code: 'HAR', label: 'הארבין' }
+  ],
+  'UA': [
+    { code: 'KIE', label: 'קייב' },
+    { code: 'KHA', label: 'חרקוב' },
+    { code: 'ODE', label: 'אודסה' },
+    { code: 'DNI', label: 'דנייפרו' },
+    { code: 'UMA', label: 'אומן' },
+    { code: 'LVI', label: 'לבוב' },
+    { code: 'ZAP', label: 'זפורוז\'יה' },
+    { code: 'DON', label: 'דונצק' },
+    { code: 'MER', label: 'מז\'יבוז\'' }
+  ],
+  'AU': [
+    { code: 'SYD', label: 'סידני' },
+    { code: 'MEL', label: 'מלבורן' },
+    { code: 'BRI', label: 'בריסביין' },
+    { code: 'PER', label: 'פרת\'' },
+    { code: 'ADE', label: 'אדלייד' },
+    { code: 'GOL', label: 'גולד קוסט' },
+    { code: 'CAN', label: 'קנברה' }
+  ],
+  'DE': [
+    { code: 'BER', label: 'ברלין' },
+    { code: 'MUN', label: 'מינכן' },
+    { code: 'FRA', label: 'פרנקפורט' },
+    { code: 'HAM', label: 'המבורג' },
+    { code: 'COL', label: 'קלן' },
+    { code: 'DUS', label: 'דיסלדורף' },
+    { code: 'STU', label: 'שטוטגרט' },
+    { code: 'LEI', label: 'לייפציג' },
+    { code: 'DRE', label: 'דרזדן' }
+  ],
+  'IT': [
+    { code: 'ROM', label: 'רומא' },
+    { code: 'MIL', label: 'מילאנו' },
+    { code: 'NAP', label: 'נאפולי' },
+    { code: 'TUR', label: 'טורינו' },
+    { code: 'BOL', label: 'בולוניה' },
+    { code: 'FLO', label: 'פירנצה' },
+    { code: 'VEN', label: 'ונציה' },
+    { code: 'PAL', label: 'פלרמו' }
+  ],
+  'BE': [
+    { code: 'BRU', label: 'בריסל' },
+    { code: 'ANT', label: 'אנטוורפן' },
+    { code: 'GEN', label: 'גנט' },
+    { code: 'CHA', label: 'שרלרואה' },
+    { code: 'LIE', label: 'ליאז\'' }
+  ],
+  'CH': [
+    { code: 'ZUR', label: 'ציריך' },
+    { code: 'GEN', label: 'ז\'נבה' },
+    { code: 'BAS', label: 'באזל' },
+    { code: 'BER', label: 'ברן' },
+    { code: 'LAU', label: 'לוזאן' },
+    { code: 'LUG', label: 'לוגאנו' }
+  ],
+  'NL': [
+    { code: 'AMS', label: 'אמסטרדם' },
+    { code: 'ROT', label: 'רוטרדם' },
+    { code: 'HAG', label: 'האג' },
+    { code: 'UTR', label: 'אוטרכט' },
+    { code: 'EIN', label: 'איינדהובן' }
+  ],
+  'ES': [
+    { code: 'MAD', label: 'מדריד' },
+    { code: 'BAR', label: 'ברצלונה' },
+    { code: 'VAL', label: 'ולנסיה' },
+    { code: 'SEV', label: 'סביליה' },
+    { code: 'MAL', label: 'מלגה' },
+    { code: 'BIL', label: 'בילבאו' }
+  ],
+  'AR': [
+    { code: 'BUE', label: 'בואנוס איירס' },
+    { code: 'COR', label: 'קורדובה' },
+    { code: 'ROS', label: 'רוסריו' },
+    { code: 'MEN', label: 'מנדוסה' },
+    { code: 'TUC', label: 'טוקומן' }
+  ],
+  'BR': [
+    { code: 'SAO', label: 'סאו פאולו' },
+    { code: 'RIO', label: 'ריו דה ז\'נירו' },
+    { code: 'BRA', label: 'ברזיליה' },
+    { code: 'SAL', label: 'סלבדור' },
+    { code: 'FOR', label: 'פורטלזה' },
+    { code: 'BEL', label: 'בלו הוריזונטה' }
+  ],
+  'ZA': [
+    { code: 'JOH', label: 'יוהנסבורג' },
+    { code: 'CAP', label: 'קייפטאון' },
+    { code: 'DUR', label: 'דרבן' },
+    { code: 'PRE', label: 'פרטוריה' },
+    { code: 'BLO', label: 'בלומפונטיין' }
+  ],
+  'RU': [
+    { code: 'MOS', label: 'מוסקבה' },
+    { code: 'SPB', label: 'סנט פטרסבורג' },
+    { code: 'NOV', label: 'נובוסיבירסק' },
+    { code: 'YEK', label: 'יקטרינבורג' },
+    { code: 'KAZ', label: 'קאזאן' },
+    { code: 'SOC', label: 'סוצ\'י' }
+  ],
+  'JP': [
+    { code: 'TOK', label: 'טוקיו' },
+    { code: 'OSA', label: 'אוסקה' },
+    { code: 'KYO', label: 'קיוטו' },
+    { code: 'SAP', label: 'סאפורו' },
+    { code: 'KOB', label: 'קובה' },
+    { code: 'NAG', label: 'נגויה' }
+  ],
+  'KR': [
+    { code: 'SEO', label: 'סיאול' },
+    { code: 'BUS', label: 'בוסאן' },
+    { code: 'INC', label: 'אינצ\'און' },
+    { code: 'DAE', label: 'דאגו' }
+  ],
+  'MX': [
+    { code: 'MEX', label: 'מקסיקו סיטי' },
+    { code: 'GUA', label: 'גוודלחרה' },
+    { code: 'MON', label: 'מונטריי' },
+    { code: 'PUE', label: 'פואבלה' },
+    { code: 'CAN', label: 'קנקון' }
+  ]
+};
+
+// רשימת המדינות המורחבת
 const countries = [
   { code: 'IL', label: 'ישראל' },
   { code: 'US', label: 'ארצות הברית' },
   { code: 'GB', label: 'בריטניה' },
   { code: 'FR', label: 'צרפת' },
   { code: 'CA', label: 'קנדה' },
+  { code: 'CN', label: 'סין' },
+  { code: 'UA', label: 'אוקראינה' },
   { code: 'AU', label: 'אוסטרליה' },
   { code: 'DE', label: 'גרמניה' },
   { code: 'IT', label: 'איטליה' },
+  { code: 'BE', label: 'בלגיה' },
+  { code: 'CH', label: 'שוויץ' },
+  { code: 'NL', label: 'הולנד' },
   { code: 'ES', label: 'ספרד' },
-  { code: 'RU', label: 'רוסיה' },
-  { code: 'BR', label: 'ברזיל' },
-  { code: 'JP', label: 'יפן' },
-  { code: 'CN', label: 'סין' },
-  { code: 'IN', label: 'הודו' },
   { code: 'AR', label: 'ארגנטינה' },
-  { code: 'MX', label: 'מקסיקו' },
+  { code: 'BR', label: 'ברזיל' },
+  { code: 'ZA', label: 'דרום אפריקה' },
+  { code: 'RU', label: 'רוסיה' },
+  { code: 'JP', label: 'יפן' },
+  { code: 'KR', label: 'דרום קוריאה' },
+  { code: 'MX', label: 'מקסיקו' }
 ];

@@ -444,7 +444,7 @@ export const Offer = () => {
     
     try {
       dispatch(editOffer(offer));
-      await dispatch(UpdateOfferThunk({ code: offer.code, request: offer }));
+      await dispatch(UpdateOfferThunk(offer));
       dialogRef.current.close();
       setIsEditMode(false);
       setSnackbar({

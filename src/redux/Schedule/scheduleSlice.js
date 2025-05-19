@@ -3,6 +3,7 @@
 import {GetScheduleByIdThunk} from './getScheduleByIdThunk';
  import { DeleteScheduleThunk } from './deleteScheduleThunk';
  import { UpdateScheduleThunk } from './updateScheduleThunk';
+import { GetScheduleByCodeThunk } from './getScheduleByCodeThunk';
 
 const INITIAL_STATE = {
     schedules:[],
@@ -36,6 +37,10 @@ export const scheduleSlice = createSlice({
         //editSchedule
         builder.addCase(UpdateScheduleThunk.fulfilled,(state,action) => {
             state.schedules  = action.payload;
+        });
+        //GetScheduleByCodeThunk
+        builder.addCase(GetScheduleByCodeThunk.fulfilled,(state,action) => {
+            state.schedule  = action.payload;
         });
     }
 })

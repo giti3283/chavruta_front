@@ -6,6 +6,7 @@ import { AddOfferThunk } from './addOfferThunk';
 import { DeleteOfferThunk } from './deleteOffersThunk';
 import { UpdateOfferThunk } from './updateOffersThunk';
 import { getOffersByIdThunk } from './getOffersByIdThunk';
+import { GetOfferByCodeThunk } from './getOffersByCodeThunk';
 
 const INITIAL_STATE = {
     offers:[],
@@ -30,6 +31,7 @@ export const offersSlice = createSlice({
       
         //addOffer
         builder.addCase(AddOfferThunk.fulfilled,(state,action) => {
+            console.log(action.payload);
             state.offers = action.payload;
         });
 
@@ -49,6 +51,10 @@ export const offersSlice = createSlice({
         //getOffersById
         builder.addCase(getOffersByIdThunk.fulfilled,(state,action) => {
             state.offers = action.payload;
+        });
+        //getOffersByCode
+        builder.addCase(GetOfferByCodeThunk.fulfilled,(state,action) => {
+            state.offer = action.payload;
         });
     }
 })

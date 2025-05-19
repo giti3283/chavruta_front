@@ -1,13 +1,15 @@
 // בס"ד
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom'; // הוסף את זה
 import { GetChavrutaThunk } from '../../redux/Requests/getChavrutaThunk';
+import { SelectChavrutaThunk } from '../../redux/Requests/selectChavrutaThunk'; // הוסף את זה
 import { setSelectedMatch, clearSelectedMatch, setFilter, clearFilters } from '../../redux/Requests/chavrutaSlice';
 import {
     Container, Grid, Card, CardContent, CardActions, Typography, Button,
     Chip, Dialog, DialogTitle, DialogContent, DialogActions, CircularProgress,
     Box, FormControl, InputLabel, Select, MenuItem, TextField, IconButton,
-    Divider, Paper, Tooltip, Badge, Avatar
+    Divider, Paper, Tooltip, Badge, Avatar, Zoom, Snackbar, Alert // הוסף את Zoom, Snackbar, Alert
 } from '@mui/material';
 import {
     Schedule as ScheduleIcon,
@@ -18,12 +20,14 @@ import {
     FilterList as FilterListIcon,
     Clear as ClearIcon,
     Close as CloseIcon,
-    Search as SearchIcon
+    Search as SearchIcon,
+    CheckCircle as CheckCircleIcon, // הוסף את זה
+    EventAvailable as EventAvailableIcon, // הוסף את זה
+    Handshake as HandshakeIcon // הוסף את זה
 } from '@mui/icons-material';
 import './chavruta.css';
 import ScheduleCalendar from '../schedule/newSchedule';
 import { GetByIdThunk } from '../../redux/Person/getByIdThunk';
-
 // המרת יום באנגלית ליום בעברית
 const getDayInHebrew = (day) => {
     const days = {
@@ -39,44 +43,263 @@ const getDayInHebrew = (day) => {
 };
 
 // קומפוננטה להצגת לוח זמנים
-export const ScheduleDisplay = ({ schedules }) => {
+export const ScheduleDisplay = ({ schedules, requestCode, chavrutaCode }) => {
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const [selectedSchedule, setSelectedSchedule] = useState(null);
+    const [confirmDialogOpen, setConfirmDialogOpen] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const [snackbar, setSnackbar] = useState({
+        open: false,
+        message: '',
+        severity: 'success'
+    });
+
+    const handleScheduleSelect = (schedule) => {
+        if (schedule.available) {
+            setSelectedSchedule(schedule);
+            setConfirmDialogOpen(true);
+        }
+    };
+
+    const handleConfirmSelection = async () => {
+        console.log("Selected Schedule Code:", selectedSchedule.code);
+        console.log("Request Code:", requestCode);
+        console.log("Chavruta Code:", chavrutaCode);
+        
+        if (!selectedSchedule) return;
+        
+        setLoading(true);
+        try {
+            // שליחת הנתונים לפונקציית ה-thunk
+            const result = await dispatch(SelectChavrutaThunk({
+                requestCode, 
+                chavrutaCode, 
+                scheduleCode: selectedSchedule.code
+            })).unwrap();
+            
+            // סגירת הדיאלוג
+            setConfirmDialogOpen(false);
+            
+            // הצגת הודעת הצלחה
+            setSnackbar({
+                open: true,
+                message: 'החברותא נקבעה בהצלחה!',
+                severity: 'success'
+            });
+            
+            // מעבר לדף סיום
+            setTimeout(() => {
+                navigate(`/chavruta-success/${requestCode}/${chavrutaCode}/${selectedSchedule.code}`);
+            }, 1500);
+            
+        } catch (error) {
+            console.error('Error selecting chavruta:', error);
+            setSnackbar({
+                open: true,
+                message: `שגיאה בקביעת החברותא: ${error.message || 'אנא נסה שוב'}`,
+                severity: 'error'
+            });
+        } finally {
+            setLoading(false);
+        }
+    };
+
     return (
         <Box sx={{ mt: 2 }}>
             <Typography variant="h6" gutterBottom sx={{ display: 'flex', alignItems: 'center' }}>
                 <ScheduleIcon sx={{ mr: 1 }} /> לוח זמנים אפשרי
             </Typography>
-            <Grid container spacing={1}>
+            
+            <Grid container spacing={2}>
                 {schedules.map((schedule, index) => (
                     <Grid item xs={12} sm={6} md={4} key={index}>
-                        <Paper
-                            elevation={2}
-                            sx={{
-                                p: 1,
-                                display: 'flex',
-                                flexDirection: 'column',
-                                alignItems: 'center',
-                                backgroundColor: schedule.available ? '#e8f5e9' : '#ffebee'
-                            }}
-                        >
-                            <Typography variant="subtitle1" fontWeight="bold">
-                                יום {getDayInHebrew(schedule.dayInWeek)}
-                            </Typography>
-                            <Typography variant="body2">
-                                {schedule.fromTime.substring(0, 5)} - {schedule.toTime.substring(0, 5)}
-                            </Typography>
-                            <Chip
-                                size="small"
-                                label={schedule.available ? "פנוי" : "תפוס"}
-                                color={schedule.available ? "success" : "error"}
-                                sx={{ mt: 1 }}
-                            />
-                        </Paper>
+                        <Zoom in={true} style={{ transitionDelay: `${index * 100}ms` }}>
+                            <Paper
+                                elevation={schedule.available ? 3 : 1}
+                                sx={{
+                                    p: 2,
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    alignItems: 'center',
+                                    backgroundColor: schedule.available ? '#e8f5e9' : '#ffebee',
+                                    borderRadius: 2,
+                                    transition: 'transform 0.2s ease, box-shadow 0.2s ease',
+                                    cursor: schedule.available ? 'pointer' : 'default',
+                                    border: `1px solid ${schedule.available ? '#81c784' : '#e57373'}`,
+                                    '&:hover': {
+                                        transform: schedule.available ? 'translateY(-4px)' : 'none',
+                                        boxShadow: schedule.available ? '0 6px 12px rgba(0, 0, 0, 0.1)' : 'none',
+                                    }
+                                }}
+                                onClick={() => handleScheduleSelect(schedule)}
+                            >
+                                <Typography variant="subtitle1" fontWeight="bold" sx={{ mb: 1 }}>
+                                    יום {getDayInHebrew(schedule.dayInWeek)}
+                                </Typography>
+                                
+                                <Box sx={{ 
+                                    display: 'flex', 
+                                    alignItems: 'center', 
+                                    justifyContent: 'center',
+                                    mb: 1
+                                }}>
+                                    <EventAvailableIcon sx={{ mr: 1, color: schedule.available ? 'success.main' : 'error.main' }} />
+                                    <Typography variant="body1">
+                                        {schedule.fromTime.substring(0, 5)} - {schedule.toTime.substring(0, 5)}
+                                    </Typography>
+                                </Box>
+                                
+                                <Chip
+                                    size="small"
+                                    label={schedule.available ? "פנוי" : "תפוס"}
+                                    color={schedule.available ? "success" : "error"}
+                                    icon={schedule.available ? <CheckCircleIcon /> : null}
+                                    sx={{ mt: 1 }}
+                                />
+                                
+                                {schedule.available && (
+                                    <Tooltip title="לחץ לקביעת חברותא בזמן זה">
+                                        <Button
+                                            variant="outlined"
+                                            color="success"
+                                            size="small"
+                                            startIcon={<HandshakeIcon />}
+                                            sx={{ mt: 2 }}
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                handleScheduleSelect(schedule);
+                                            }}
+                                        >
+                                            קבע חברותא
+                                        </Button>
+                                    </Tooltip>
+                                )}
+                            </Paper>
+                        </Zoom>
                     </Grid>
                 ))}
             </Grid>
+            
+            {/* דיאלוג אישור */}
+            <Dialog
+                open={confirmDialogOpen}
+                onClose={() => !loading && setConfirmDialogOpen(false)}
+                maxWidth="sm"
+                fullWidth
+                PaperProps={{
+                    sx: {
+                        borderRadius: 2,
+                        p: 1
+                    }
+                }}
+            >
+                <DialogTitle sx={{ textAlign: 'center', fontWeight: 'bold' }}>
+                    אישור קביעת חברותא
+                </DialogTitle>
+                
+                <DialogContent>
+                    {selectedSchedule && (
+                        <Box sx={{ textAlign: 'center', py: 2 }}>
+                            <Typography variant="h6" gutterBottom>
+                                האם אתה בטוח שברצונך לקבוע חברותא בזמן הבא?
+                            </Typography>
+                            
+                            <Paper 
+                                elevation={3} 
+                                sx={{ 
+                                    p: 2, 
+                                    my: 2, 
+                                    maxWidth: 300, 
+                                    mx: 'auto',
+                                    bgcolor: 'success.light',
+                                    color: 'success.contrastText'
+                                }}
+                            >
+                                <Typography variant="subtitle1" fontWeight="bold">
+                                    יום {getDayInHebrew(selectedSchedule.dayInWeek)}
+                                </Typography>
+                                <Typography variant="h6">
+                                    {selectedSchedule.fromTime.substring(0, 5)} - {selectedSchedule.toTime.substring(0, 5)}
+                                </Typography>
+                            </Paper>
+                            
+                            <Typography variant="body2" color="text.secondary">
+                                לאחר האישור, החברותא תיקבע ותוכלו להתחיל ללמוד יחד.
+                            </Typography>
+                        </Box>
+                    )}
+                </DialogContent>
+                
+                <DialogActions sx={{ justifyContent: 'center', pb: 2 }}>
+                    <Button 
+                        variant="outlined" 
+                        onClick={() => setConfirmDialogOpen(false)}
+                        disabled={loading}
+                    >
+                        ביטול
+                    </Button>
+                    
+                    <Button
+                        variant="contained"
+                        color="success"
+                        onClick={handleConfirmSelection}
+                        disabled={loading}
+                        startIcon={loading ? <CircularProgress size={20} /> : <HandshakeIcon />}
+                        sx={{
+                            fontWeight: 'bold',
+                            px: 3,
+                            boxShadow: '0 3px 5px 2px rgba(76, 175, 80, .3)',
+                            '&:hover': {
+                                boxShadow: '0 6px 10px 4px rgba(76, 175, 80, .3)',
+                            }
+                        }}
+                    >
+                        {loading ? 'מאשר...' : 'אשר קביעת חברותא'}
+                    </Button>
+                </DialogActions>
+            </Dialog>
+            
+            {/* Snackbar להודעות */}
+            <Snackbar
+                open={snackbar.open}
+                autoHideDuration={6000}
+                onClose={() => setSnackbar({ ...snackbar, open: false })}
+                anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+            >
+                <Alert 
+                    onClose={() => setSnackbar({ ...snackbar, open: false })} 
+                    severity={snackbar.severity}
+                    variant="filled"
+                    sx={{ width: '100%' }}
+                >
+                    {snackbar.message}
+                </Alert>
+            </Snackbar>
         </Box>
     );
 };
+// פונקציה לחישוב גיל מתאריך לידה
+const calculateAge = (birthDate) => {
+    // בדיקה אם birthDate הוא מחרוזת או אובייקט Date
+    const birthDateObj = typeof birthDate === 'string' ? new Date(birthDate) : birthDate;
+    
+    // בדיקה אם התאריך תקין
+    if (isNaN(birthDateObj.getTime())) {
+      return 'N/A'; // אם התאריך לא תקין, החזר 'לא זמין'
+    }
+    
+    const today = new Date();
+    let age = today.getFullYear() - birthDateObj.getFullYear();
+    const monthDiff = today.getMonth() - birthDateObj.getMonth();
+    
+    // אם עוד לא הגיע יום ההולדת השנה, הפחת שנה
+    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDateObj.getDate())) {
+      age--;
+    }
+    
+    return age;
+  };
 
 // קומפוננטת סינון
 export const FilterPanel = ({ onApplyFilters, onClearFilters, subjects, books, modes, days }) => {
@@ -531,11 +754,20 @@ export const ChavrutaCards = ({ requestCode }) => {
                                                 <strong>שם:</strong> {person.firstName} {person.lastName}
                                             </Typography>
                                             <Typography variant="body1" gutterBottom>
-                                                <strong>גיל:</strong> {person.birthDate}
+                                            <strong>גיל:</strong> {calculateAge(person.birthDate)}
                                             </Typography>
                                             <Typography variant="body1" gutterBottom>
-                                                <strong>מזהה:</strong> {selectedMatch.offer.personId}
+                                            <strong>מגזר:</strong> {person.denomination}
                                             </Typography>
+                                            <Typography variant="body1" gutterBottom>
+                                            <strong>מדינה:</strong> {person.country}
+                                            </Typography>
+                                            <Typography variant="body1" gutterBottom>
+                                            <strong>עיר:</strong> {person.city}
+                                            </Typography>
+                                            {/* <Typography variant="body1" gutterBottom>
+                                                <strong>מזהה:</strong> {selectedMatch.offer.personId}
+                                            </Typography> */}
                                             <Button
                                                 variant="outlined"
                                                 color="primary"
@@ -549,7 +781,11 @@ export const ChavrutaCards = ({ requestCode }) => {
                                 </Grid>
 
                                 <Grid item xs={12}>
-                                    <ScheduleDisplay schedules={selectedMatch.schedules} />
+                                    <ScheduleDisplay 
+                                        schedules={selectedMatch.schedules} 
+                                        requestCode={requestCode}
+                                        chavrutaCode={selectedMatch.offer.code} 
+                                    />
                                 </Grid>
                                 {/* <Grid item xs={12}>
                                     <ScheduleCalendar schedules={selectedMatch.schedules} />

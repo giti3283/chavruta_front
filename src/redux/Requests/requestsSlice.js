@@ -7,6 +7,7 @@ import { DeleteRequestThunk } from './deleteRequestThunk';
 import { UpdateRequestThunk } from './updateRequestsThunk';
 import { GetChavrutaThunk } from './getChavrutaThunk';
 import { GetRequestsByIdThunk } from './getRequestsByIdThunk';
+import { GetRequestByCodeThunk } from './getRequestByCodeThunk';
 
 const INITIAL_STATE = {
     requests: [],
@@ -50,6 +51,10 @@ export const requestsSlice = createSlice({
         //getRequestsById
         builder.addCase(GetRequestsByIdThunk.fulfilled,(state,action) => {
             state.requests = action.payload;
+        });
+        //getRequestByCode
+        builder.addCase(GetRequestByCodeThunk.fulfilled,(state,action) => {
+            state.request = action.payload;
         });
     }
 })

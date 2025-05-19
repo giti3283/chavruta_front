@@ -399,6 +399,17 @@ html {
     border-radius: 16px;
     border: 1px solid rgba(255, 255, 255, 0.2);
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+/** 
+     * Provides a set of CSS utility classes for creating modern, interactive UI effects.
+     * Includes animations, gradient borders, glass morphism, and responsive design utilities.
+     * 
+     * @module home-styles
+     * @description Defines visual styling and animation effects for the home component
+     */    /** 
+     * Sets the text color to a deep burgundy/maroon shade (rgb(108, 9, 62)).
+     * Useful for creating contrast or emphasizing specific text elements.
+     */
+    color: rgb(108, 9, 62);
   }
   
   /* Responsive typography */

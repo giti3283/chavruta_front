@@ -2,10 +2,11 @@ import { Route, Routes } from "react-router-dom"
 import { Login } from "./login/login"
 import { Logon } from "./logon/logon"
 import { Offer } from "./offers/offer"
-import { Home } from "./home/home"
+import { Home } from "./home/home2"
 import { Request } from "./request/request"
 import { Schedule } from "./schedule/schedule"
 import {ChavrutaSearchPage} from "./chavrutaSearch/chavrutaSearchPage"
+import { ChavrutaSuccess } from "./chavrutaSearch/chavrutaSuccess"
 
 export const Routing = () => {
     
@@ -24,5 +25,6 @@ export const Routing = () => {
         <Route path="/home" element={<Home></Home>}></Route>
         <Route path="/chavruta" element={<ChavrutaSearchPage/>} />
         <Route path="/chavruta/:requestCode" element={<ChavrutaSearchPage/>} />
+        <Route path="/chavruta-success/:requestCode/:chavrutaCode/:scheduleCode" element={<ChavrutaSuccess />} />
     </Routes>
 }
