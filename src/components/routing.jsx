@@ -7,14 +7,14 @@ import { Request } from "./request/request"
 import { Schedule } from "./schedule/schedule"
 import {ChavrutaSearchPage} from "./chavrutaSearch/chavrutaSearchPage"
 import { ChavrutaSuccess } from "./chavrutaSearch/chavrutaSuccess"
+import NavBar from "./navBar/navBar"
 
 export const Routing = () => {
     
-    return <Routes>
-        {/* <header> */}
-            {/* <ChavrutaLogo />
-            <h1>ChavrutaMatch</h1> */}
-        {/* </header> */}
+    return  <Routes>
+     {/* <NavBar> */}
+   
+       
         <Route path="/" element={<Home></Home>}></Route>
         <Route path="/login" element={<Login></Login>}></Route>
         <Route path="/logon/:id/:firstName/:lastName" element={<Logon></Logon>}></Route>
@@ -27,4 +27,5 @@ export const Routing = () => {
         <Route path="/chavruta/:requestCode" element={<ChavrutaSearchPage/>} />
         <Route path="/chavruta-success/:requestCode/:chavrutaCode/:scheduleCode" element={<ChavrutaSuccess />} />
     </Routes>
+     {/* </NavBar> */}
 }

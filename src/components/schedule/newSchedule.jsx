@@ -1,7 +1,4 @@
 
-
-
-
 // בס"ד
 import React from 'react';
 import { 
@@ -46,11 +43,18 @@ const generateTimeSlots = () => {
  * <ScheduleCalendar schedules={weeklySchedules} />
  */
 const ScheduleCalendar = ({ schedules = [] }) => {
-    const timeSlots = generateTimeSlots();
-    const days = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri'];
+    // בדיקה למניעת רינדורים מיותרים
+    const renderCount = React.useRef(0);
+    React.useEffect(() => {
+        renderCount.current += 1;
+        console.log(`ScheduleCalendar rendered ${renderCount.current} times`);
+    });
+    
+    const timeSlots = React.useMemo(() => generateTimeSlots(), []);
+    const days = React.useMemo(() => ['sun', 'mon', 'tue', 'wed', 'thu', 'fri'], []);
     
     // בדיקה אם יש לוח זמנים ביום ובשעה מסוימים
-    const getScheduleForTimeSlot = (day, timeSlot) => {
+    const getScheduleForTimeSlot = React.useCallback((day, timeSlot) => {
         // בדיקה אם יש מערכת שעות קיימת לזמן זה
         const existingSchedule = schedules.find(schedule => {
             const fromTime = schedule.fromTime.substring(0, 5);
@@ -77,7 +81,7 @@ const ScheduleCalendar = ({ schedules = [] }) => {
             toTime: `${parseInt(timeSlot.split(':')[0]) + 1}:00`,
             available: true // ברירת מחדל - זמין
         };
-    };
+    }, [schedules]);
 
     return (
         <Paper

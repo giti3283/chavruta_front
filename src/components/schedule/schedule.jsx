@@ -1,115 +1,4 @@
-// // // import { Link, useNavigate, useParams } from "react-router-dom";
-// // // import { useEffect, useRef, useState } from "react";
-// // // import { useDispatch, useSelector } from "react-redux";
-// // // import * as React from 'react';
-// // // import "./schedule.css"
-// // // import { AddScheduleThunk } from "../../redux/Schedule/addScheduleThunk";
-// // // import { GetScheduleByIdThunk } from "../../redux/Schedule/getScheduleByIdThunk";
-// // // import { Box, Button, Dialog, Grid, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
-// // // import Icon from '@mui/material/Icon';
-// // // import Fab from '@mui/material/Fab';
-// // // import AddIcon from '@mui/icons-material/Add';
-// // // import { editSchedule } from "../../redux/Schedule/scheduleSlice";
-// // // import { UpdateScheduleThunk } from "../../redux/Schedule/updateScheduleThunk";
-// // // import { Home } from "@mui/icons-material";
-// // // import ScheduleCalendar from "./newSchedule";
-// // // import { ScheduleDisplay } from "../chavruta/chavruta";
-// // // // import { DemoContainer, DemoItem } from '@mui/x-date-pickers/internals/demo';
-// // // // import { MultiInputTimeRangeField } from '@mui/x-date-pickers-pro/MultiInputTimeRangeField';
-// // // export const Schedule = () => {
-// // //     const [localFilters, setLocalFilters] = useState('');
-// // //     const param = useParams()
-// // //     const dispatch = useDispatch();
-// // //     const navigate = useNavigate()
-// // //     const sch = useSelector(s => s.schedule.schedule)
-// // //     const [schedule, setSchedule] = useState({ code: sch.code, dayInWeek: sch.day, fromTime: sch.fromTime, toTime: sch.toTime, available: sch.available, personId: param.id });
-// // //     const [key, setKey] = useState(false)
-// // //     const scheduleArr = useSelector(state => state.schedule.schedules)
-// // //     const ref = useRef(false)
-// // //     const getSchedule = async () => {
-// // //         dispatch(GetScheduleByIdThunk(param.id))
-// // //     }
-// // //     const addSchedule = async () => {
-// // //         dispatch(AddScheduleThunk(schedule))
-// // //         ref.current.close()
-// // //     }
-// // //     const updateSchedule = async () => {
-// // //         editSchedule(schedule)
-// // //         dispatch(UpdateScheduleThunk({ code: schedule.code, schedule: schedule }))
-// // //         // dispatch(GetRequestsByIdThunk(param.id))
-// // //         ref.current.close()
-// // //     }
-    
-// // //     useEffect(() => {
-// // //         getSchedule()
-// // //     }, [])
-// // //     return <div>
-// // //         {/* <button onClick={() => getSchedule()}>מערכת שבועית</button>  */}
-// // //         {/* <link
-// // //             rel="stylesheet"
-// // //             href="https://fonts.googleapis.com/icon?family=Material+Icons"
-// // //         /> */}
 
-
-// // //         <Home ></Home>
-// // //         <dialog ref={ref}><div className='header'>
-// // //         </div >
-// // //             {/* <label>ת.ז</label><br />
-// // //             <label type="password" >{param.id}</label><br /> */}
-// // //             <label>day:</label><br />
-// // //             <input type="text" placeholder="day" value={schedule.dayInWeek} onChange={x => setSchedule({ ...schedule, dayInWeek: x.target.value })}></input><br />
-// // //             <label>from time:</label><br />
-// // //             <input type="time" value={schedule.fromTime} onChange={x => setSchedule({ ...schedule, fromTime: x.target.value + ":00" })}></input><br />
-// // //             <label>to time:</label><br />
-// // //             <input type="time" value={schedule.toTime} onChange={x => setSchedule({ ...schedule, toTime: x.target.value + ":00" })}></input><br />
-// // //             {key == true && <button onClick={() => updateSchedule()}>עדכון</button>}
-// // //             {key == false && <button onClick={() => addSchedule()}>הוספה</button>}
-// // //             <button onClick={() => ref.current.close()}>יציאה</button>
-// // //             {/* <DemoItem
-// // //           label="MultiInputDateRangeField"
-// // //         //   component="MultiInputDateRangeField"
-// // //         >
-// // //           <MultiInputTimeRangeField defaultValue={[schedule.fromTime, schedule.toTime]} />
-// // //         </DemoItem> */}
-// // //         </dialog>
-
-// // //         <TableContainer sx={{ minWidth: 700 }} aria-label="customized table" className="tableContainer" align="center">
-// // //             <TableHead className="tableHead">
-// // //                 <TableRow className="tableRow" >
-// // //                     <TableCell align="center" >  <Fab color="primary" aria-label="add" onClick={() => { ref.current.showModal(); setKey(false) }}>
-// // //                         <AddIcon />
-// // //                     </Fab></TableCell>
-// // //                     <TableCell align="center">Sunday</TableCell>
-// // //                     <TableCell align="center">Monday</TableCell>
-// // //                     <TableCell align="center">Tuesday</TableCell>
-// // //                     <TableCell align="center">Wednesday</TableCell>
-// // //                     <TableCell align="center">Thursday </TableCell>
-// // //                     <TableCell align="center">Friday</TableCell>
-// // //                     <TableCell align="center">Shabbos</TableCell>
-
-// // //                 </TableRow>
-// // //             </TableHead>
-// // //             <TableBody>
-// // //                 {scheduleArr?.map(x =>
-// // //                     <TableRow className="tableRow" component="th" scope="row">
-// // //                         <TableCell align="center">{x.dayInWeek == "sun" ? `${x.fromTime} - ${x.toTime}` : ""} </TableCell>
-// // //                         <TableCell align="center">{x.dayInWeek == "mon" ? `${x.fromTime} - ${x.toTime}` : ""}</TableCell>
-// // //                         <TableCell align="center">{x.dayInWeek == "tue" ? `${x.fromTime} - ${x.toTime}` : ""}</TableCell>
-// // //                         <TableCell align="center">{x.dayInWeek == "wed" ? `${x.fromTime} - ${x.toTime}` : ""}</TableCell>
-// // //                         <TableCell align="center">{x.dayInWeek == "thu" ? `${x.fromTime} - ${x.toTime}` : ""}</TableCell>
-// // //                         <TableCell align="center">{x.dayInWeek == "fri" ? `${x.fromTime} - ${x.toTime}` : ""}</TableCell>
-// // //                         <TableCell align="center">{x.dayInWeek == "shabbos" ? `${x.fromTime} - ${x.toTime}` : ""}</TableCell>
-// // //                     </TableRow>
-// // //                 )}
-// // //                 <Button variant="outlined" onClick={() => navigate(-1)}>back</Button>
-// // //             </TableBody>
-// // //         </TableContainer>
-// // //         <Grid item xs={12}>
-// // //             <ScheduleDisplay schedules={scheduleArr} />
-// // //         </Grid>
-
-// // //     </div>
-// // // }
 
 
 import { useNavigate, useParams } from "react-router-dom";
@@ -173,6 +62,7 @@ import EventAvailableIcon from '@mui/icons-material/EventAvailable';
 import EventBusyIcon from '@mui/icons-material/EventBusy';
 import HomeIcon from '@mui/icons-material/Home';
 import LanguageIcon from '@mui/icons-material/Language';
+import { useCallback } from "react";
 
 export const Schedule = () => {
   const param = useParams();
@@ -308,66 +198,68 @@ export const Schedule = () => {
     }
   };
   
-  const addSchedule = async () => {
-    if (!schedule.dayInWeek || !schedule.fromTime || !schedule.toTime) {
-      setSnackbar({
-        open: true,
-        message: "Please fill all required fields",
-        severity: "warning"
-      });
-      return;
-    }
-    
-    setLoading(true);
-    try {
-      await dispatch(AddScheduleThunk(schedule));
-      setOpen(false);
-      setSnackbar({
-        open: true,
-        message: t.timeSlotAdded,
-        severity: "success"
-      });
-    } catch (error) {
-      setSnackbar({
-        open: true,
-        message: "Failed to add time slot",
-        severity: "error"
-      });
-    } finally {
-      setLoading(false);
-    }
-  };
+  const addSchedule = useCallback(async () => {
+  if (!schedule.dayInWeek || !schedule.fromTime || !schedule.toTime) {
+    setSnackbar({
+      open: true,
+      message: "Please fill all required fields",
+      severity: "warning"
+    });
+    return;
+  }
   
-  const updateSchedule = async () => {
-    if (!schedule.dayInWeek || !schedule.fromTime || !schedule.toTime) {
-      setSnackbar({
-        open: true,
-        message: "Please fill all required fields",
-        severity: "warning"
-      });
-      return;
-    }
-    
-    setLoading(true);
-    try {
-      dispatch(editSchedule(schedule));
-      await dispatch(UpdateScheduleThunk({ code: schedule.code, schedule: schedule }));
-      setOpen(false);
-      setSnackbar({
-        open: true,
-        message: t.timeSlotUpdated,
-        severity: "success"
-      });
-    } catch (error) {
-      setSnackbar({
-        open: true,
-        message: "Failed to update time slot",
-        severity: "error"
-      });
-    } finally {
-      setLoading(false);
-    }
-  };
+  setLoading(true);
+  try {
+    await dispatch(AddScheduleThunk(schedule));
+    setOpen(false);
+    setSnackbar({
+      open: true,
+      message: t.timeSlotAdded,
+      severity: "success"
+    });
+  } catch (error) {
+    setSnackbar({
+      open: true,
+      message: "Failed to add time slot",
+      severity: "error"
+    });
+  } finally {
+    setLoading(false);
+  }
+}, [dispatch, schedule, setLoading, setOpen, setSnackbar, t.timeSlotAdded]);
+
+const updateSchedule = useCallback(async () => {
+  if (!schedule.dayInWeek || !schedule.fromTime || !schedule.toTime) {
+    setSnackbar({
+      open: true,
+      message: "Please fill all required fields",
+      severity: "warning"
+    });
+    return;
+  }
+  
+  setLoading(true);
+  try {
+    dispatch(editSchedule(schedule));
+    await dispatch(UpdateScheduleThunk({ code: schedule.code, schedule: schedule }));
+    setOpen(false);
+    setSnackbar({
+      open: true,
+      message: t.timeSlotUpdated,
+      severity: "success"
+    });
+  } catch (error) {
+    setSnackbar({
+      open: true,
+      message: "Failed to update time slot",
+      severity: "error"
+    });
+  } finally {
+    setLoading(false);
+  }
+}, [dispatch, editSchedule, schedule, setLoading, setOpen, setSnackbar, t.timeSlotUpdated]);
+  
+  
   
   const formatTime = (timeString) => {
     if (!timeString) return '';
@@ -629,7 +521,7 @@ export const Schedule = () => {
           <Button
             variant="contained"
             color="primary"
-            onClick={isEditMode ? updateSchedule() : addSchedule()}
+            onClick={isEditMode ? updateSchedule : addSchedule}
             disabled={loading}
             startIcon={loading ? <CircularProgress size={20} color="inherit" /> : null}
           >

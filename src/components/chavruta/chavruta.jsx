@@ -304,9 +304,9 @@ const calculateAge = (birthDate) => {
 // קומפוננטת סינון
 export const FilterPanel = ({ onApplyFilters, onClearFilters, subjects, books, modes, days }) => {
     const [localFilters, setLocalFilters] = useState({
-        subject: '',
+        // subject: '',
         book: '',
-        mode: '',
+        // mode: '',
         day: ''
     });
 
@@ -328,9 +328,9 @@ export const FilterPanel = ({ onApplyFilters, onClearFilters, subjects, books, m
 
     const handleClear = () => {
         setLocalFilters({
-            subject: '',
+            // subject: '',
             book: '',
-            mode: '',
+            // mode: '',
             day: ''
         });
         onClearFilters();
@@ -344,7 +344,7 @@ export const FilterPanel = ({ onApplyFilters, onClearFilters, subjects, books, m
             </Box>
 
             <Grid container spacing={2}>
-                <Grid item xs={12} sm={6} md={3}>
+                {/* <Grid item xs={12} sm={6} md={3}>
                     <FormControl fullWidth size="small">
                         <InputLabel>נושא</InputLabel>
                         <Select
@@ -359,7 +359,7 @@ export const FilterPanel = ({ onApplyFilters, onClearFilters, subjects, books, m
                             ))}
                         </Select>
                     </FormControl>
-                </Grid>
+                </Grid> */}
 
                 <Grid item xs={12} sm={6} md={3}>
                     <FormControl fullWidth size="small">
@@ -378,7 +378,7 @@ export const FilterPanel = ({ onApplyFilters, onClearFilters, subjects, books, m
                     </FormControl>
                 </Grid>
 
-                <Grid item xs={12} sm={6} md={3}>
+                {/* <Grid item xs={12} sm={6} md={3}>
                     <FormControl fullWidth size="small">
                         <InputLabel>אופן לימוד</InputLabel>
                         <Select
@@ -393,7 +393,7 @@ export const FilterPanel = ({ onApplyFilters, onClearFilters, subjects, books, m
                             ))}
                         </Select>
                     </FormControl>
-                </Grid>
+                </Grid> */}
 
                 <Grid item xs={12} sm={6} md={3}>
                     <FormControl fullWidth size="small">
@@ -500,9 +500,9 @@ export const ChavrutaCards = ({ requestCode }) => {
     // סינון החברותות לפי הפילטרים
     const filteredMatches = matches.filter(match => {
         // בדיקה אם החברותא עומדת בכל הפילטרים
-        if (filters.subject && match.offer.subject !== filters.subject) return false;
+        // if (filters.subject && match.offer.subject !== filters.subject) return false;
         if (filters.book && match.offer.book !== filters.book) return false;
-        if (filters.mode && match.offer.mode !== filters.mode) return false;
+        // if (filters.mode && match.offer.mode !== filters.mode) return false;
         if (filters.day) {
             // בדיקה אם יש לוח זמנים ביום המבוקש
             const hasDay = match.schedules.some(schedule => schedule.dayInWeek === filters.day);
@@ -513,9 +513,9 @@ export const ChavrutaCards = ({ requestCode }) => {
     });
 
     // רשימות ערכים לסינון
-    const subjects = getUniqueValues('subject');
+    // const subjects = getUniqueValues('subject');
     const books = getUniqueValues('book');
-    const modes = getUniqueValues('mode');
+    // const modes = getUniqueValues('mode');
     const days = getUniqueValues('day');
 
     return (
@@ -565,9 +565,9 @@ export const ChavrutaCards = ({ requestCode }) => {
                 <FilterPanel
                     onApplyFilters={handleApplyFilters}
                     onClearFilters={handleClearFilters}
-                    subjects={subjects}
+                    // subjects={subjects}
                     books={books}
-                    modes={modes}
+                    // modes={modes}
                     days={days}
                 />
             )}
