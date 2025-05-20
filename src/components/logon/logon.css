@@ -151,3 +151,35 @@ input{
       border-radius: 50%;
       background: white;
   }
+
+  /* /////////////////////// */
+  /* סגנונות לתצוגת דגלים ברשימת המדינות */
+.country-option-flag {
+  width: 16px !important;
+  height: 12px !important;
+  margin-left: 8px !important;
+  object-fit: contain !important;
+  flex-shrink: 0 !important;
+}
+
+/* סגנונות לתיבת האפשרויות של בחירת מדינה */
+.MuiAutocomplete-popper .MuiAutocomplete-listbox .MuiAutocomplete-option {
+  display: flex !important;
+  align-items: center !important;
+  padding: 6px 16px !important;
+  direction: rtl !important;
+}
+
+/* מניעת גלישה של טקסט ארוך */
+.country-option-label {
+  flex-grow: 1 !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  max-width: calc(100% - 30px) !important;
+}
+
+/* הגדלת גובה האפשרויות ברשימה */
+.MuiAutocomplete-popper .MuiAutocomplete-listbox {
+  max-height: 300px !important;
+}

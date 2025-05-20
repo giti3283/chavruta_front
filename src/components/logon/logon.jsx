@@ -485,18 +485,24 @@ export const Logon = () => {
         <Box 
           component="img" 
           loading="lazy"
-          width="20"
-          height="14"
+          className="country-option-flag"
           src={`https://purecatamphetamine.github.io/country-flag-icons/3x2/${option.code}.svg`}
           alt=""
-          sx={{ mr: 1 }}
         />
-        {option.label}
+        <span className="country-option-label">{option.label}</span>
       </Box>
     )}
     componentsProps={{
       popper: {
         sx: { direction: 'rtl' }
+      },
+      paper: {
+        elevation: 8,
+        sx: {
+          '& .MuiAutocomplete-listbox': {
+            padding: '4px 0'
+          }
+        }
       }
     }}
     autoHighlight
