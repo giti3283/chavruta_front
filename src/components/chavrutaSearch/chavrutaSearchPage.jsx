@@ -187,13 +187,13 @@ const days = [
 
 export const ChavrutaSearchPage = () => {
   const { requestCode } = useParams();
-//   const location = useLocation();
+   const location1 = useLocation();
   const navigate = useNavigate();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   
   // Get search query from URL
-  const searchParams = new URLSearchParams(location.search);
+  const searchParams = new URLSearchParams(location1.search);
   const initialQuery = searchParams.get('q') || '';
   const initialSubject = searchParams.get('subject') || '';
   
