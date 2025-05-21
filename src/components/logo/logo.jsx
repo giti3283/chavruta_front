@@ -224,28 +224,7 @@ const ChavrutaLogo = ({ isMobile }) => {
         />
 
 
-        {/* טקסט מעוצב בצד שמאל - חברותא */}
-        <text
-          x="175"
-          y="230"
-          textAnchor="middle"
-          dominantBaseline="middle"
-          fontFamily="Serif, David, Arial"
-          fontSize="24"
-          fontWeight="bold"
-          fill="url(#textFancyGradient)"
-          filter="url(#enhancedTextGlow)"
-          letterSpacing="1"
-          transform="rotate(-3,175,230)"
-          style={{
-            paintOrder: "stroke fill",
-            stroke: "#8B4513",
-            strokeWidth: "1px",
-            strokeLinejoin: "round"
-          }}
-        >
-          חברותא
-        </text>
+        
 
         {/* טקסט קטן מתחת לטקסט הראשי בצד שמאל */}
         <text
