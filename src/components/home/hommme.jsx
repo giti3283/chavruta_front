@@ -17,8 +17,6 @@ import {
   Divider,
   AppBar,
   Toolbar,
-  Menu,
-
   useTheme,
   useMediaQuery,
   Drawer,
@@ -30,7 +28,6 @@ import {
   Fade,
   Zoom,
   Grow,
-  Slide,
   Avatar
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
