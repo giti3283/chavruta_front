@@ -18,7 +18,7 @@ import {
   AppBar,
   Toolbar,
   Menu,
-  MenuItem,
+
   useTheme,
   useMediaQuery,
   Drawer,
