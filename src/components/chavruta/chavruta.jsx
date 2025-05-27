@@ -42,8 +42,8 @@ const getDayInHebrew = (day) => {
     return days[day] || day;
 };
 
-// קומפוננטה להצגת לוח זמנים
-export const ScheduleDisplay = ({ schedules, requestCode, chavrutaCode }) => {
+// עדכן את הקומפוננטה ScheduleDisplay להכיל פרמטר חדש
+export const ScheduleDisplay = ({ schedules, requestCode, chavrutaCode, showBookingButton = true }) => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const [selectedSchedule, setSelectedSchedule] = useState(null);
@@ -55,13 +55,56 @@ export const ScheduleDisplay = ({ schedules, requestCode, chavrutaCode }) => {
         severity: 'success'
     });
 
-    // הסר את הפונקציה handleScheduleSelect או עשה אותה ריקה
     const handleScheduleSelect = (schedule) => {
-        // לא עושה כלום - הסרנו את הפונקציונליות
-        return;
+        // רק אם מותר לקבוע חברותא
+        if (showBookingButton && schedule.available) {
+            setSelectedSchedule(schedule);
+            setConfirmDialogOpen(true);
+        }
     };
 
-    // שאר הפונקציות יכולות להישאר אבל לא יהיו בשימוש
+    const handleConfirmSelection = async () => {
+        console.log("Selected Schedule Code:", selectedSchedule.code);
+        console.log("Request Code:", requestCode);
+        console.log("Chavruta Code:", chavrutaCode);
+        
+        if (!selectedSchedule) return;
+        
+        setLoading(true);
+        try {
+            // שליחת הנתונים לפונקציית ה-thunk
+            const result = await dispatch(SelectChavrutaThunk({
+                requestCode, 
+                chavrutaCode, 
+                scheduleCode: selectedSchedule.code
+            })).unwrap();
+            
+            // סגירת הדיאלוג
+            setConfirmDialogOpen(false);
+            
+            // הצגת הודעת הצלחה
+            setSnackbar({
+                open: true,
+                message: 'החברותא נקבעה בהצלחה!',
+                severity: 'success'
+            });
+            
+            // מעבר לדף סיום
+            setTimeout(() => {
+                navigate(`/chavruta-success/${requestCode}/${chavrutaCode}/${selectedSchedule.code}`);
+            }, 1500);
+            
+        } catch (error) {
+            console.error('Error selecting chavruta:', error);
+            setSnackbar({
+                open: true,
+                message: `שגיאה בקביעת החברותא: ${error.message || 'אנא נסה שוב'}`,
+                severity: 'error'
+            });
+        } finally {
+            setLoading(false);
+        }
+    };
 
     return (
         <Box sx={{ mt: 2 }}>
@@ -83,11 +126,14 @@ export const ScheduleDisplay = ({ schedules, requestCode, chavrutaCode }) => {
                                     backgroundColor: schedule.available ? '#e8f5e9' : '#ffebee',
                                     borderRadius: 2,
                                     transition: 'transform 0.2s ease, box-shadow 0.2s ease',
-                                    cursor: 'default', // שונה מ-pointer
+                                    cursor: (showBookingButton && schedule.available) ? 'pointer' : 'default',
                                     border: `1px solid ${schedule.available ? '#81c784' : '#e57373'}`,
-                                    // הסר את ה-hover effects
+                                    '&:hover': {
+                                        transform: (showBookingButton && schedule.available) ? 'translateY(-4px)' : 'none',
+                                        boxShadow: (showBookingButton && schedule.available) ? '0 6px 12px rgba(0, 0, 0, 0.1)' : 'none',
+                                    }
                                 }}
-                                // הסר את onClick
+                                onClick={() => showBookingButton && handleScheduleSelect(schedule)}
                             >
                                 <Typography variant="subtitle1" fontWeight="bold" sx={{ mb: 1 }}>
                                     יום {getDayInHebrew(schedule.dayInWeek)}
@@ -113,9 +159,8 @@ export const ScheduleDisplay = ({ schedules, requestCode, chavrutaCode }) => {
                                     sx={{ mt: 1 }}
                                 />
                                 
-                                {/* הסר את כל הקטע הזה של הכפתור */}
-                                {/* 
-                                {schedule.available && (
+                                {/* הכפתור יופיע רק אם showBookingButton = true */}
+                                {showBookingButton && schedule.available && (
                                     <Tooltip title="לחץ לקביעת חברותא בזמן זה">
                                         <Button
                                             variant="outlined"
@@ -132,15 +177,112 @@ export const ScheduleDisplay = ({ schedules, requestCode, chavrutaCode }) => {
                                         </Button>
                                     </Tooltip>
                                 )}
-                                */}
                             </Paper>
                         </Zoom>
                     </Grid>
                 ))}
             </Grid>
             
-            {/* כל הדיאלוגים והSnackbar יכולים להישאר אבל לא יהיו בשימוש */}
-            {/* או שתוכלי להסיר אותם לגמרי אם את רוצה */}
+            {/* הדיאלוגים יופיעו רק אם showBookingButton = true */}
+            {showBookingButton && (
+                <>
+                    {/* דיאלוג אישור */}
+                    <Dialog
+                        open={confirmDialogOpen}
+                        onClose={() => !loading && setConfirmDialogOpen(false)}
+                        maxWidth="sm"
+                        fullWidth
+                        PaperProps={{
+                            sx: {
+                                borderRadius: 2,
+                                p: 1
+                            }
+                        }}
+                    >
+                        <DialogTitle sx={{ textAlign: 'center', fontWeight: 'bold' }}>
+                            אישור קביעת חברותא
+                        </DialogTitle>
+                        
+                        <DialogContent>
+                            {selectedSchedule && (
+                                <Box sx={{ textAlign: 'center', py: 2 }}>
+                                    <Typography variant="h6" gutterBottom>
+                                        האם אתה בטוח שברצונך לקבוע חברותא בזמן הבא?
+                                    </Typography>
+                                    
+                                    <Paper 
+                                        elevation={3} 
+                                        sx={{ 
+                                            p: 2, 
+                                            my: 2, 
+                                            maxWidth: 300, 
+                                            mx: 'auto',
+                                            bgcolor: 'success.light',
+                                            color: 'success.contrastText'
+                                        }}
+                                    >
+                                        <Typography variant="subtitle1" fontWeight="bold">
+                                            יום {getDayInHebrew(selectedSchedule.dayInWeek)}
+                                        </Typography>
+                                        <Typography variant="h6">
+                                            {selectedSchedule.fromTime.substring(0, 5)} - {selectedSchedule.toTime.substring(0, 5)}
+                                        </Typography>
+                                    </Paper>
+                                    
+                                    <Typography variant="body2" color="text.secondary">
+                                        לאחר האישור, החברותא תיקבע ותוכלו להתחיל ללמוד יחד.
+                                    </Typography>
+                                </Box>
+                            )}
+                        </DialogContent>
+                        
+                        <DialogActions sx={{ justifyContent: 'center', pb: 2 }}>
+                            <Button 
+                                variant="outlined" 
+                                onClick={() => setConfirmDialogOpen(false)}
+                                disabled={loading}
+                            >
+                                ביטול
+                            </Button>
+                            
+                            <Button
+                                variant="contained"
+                                color="success"
+                                onClick={handleConfirmSelection}
+                                disabled={loading}
+                                startIcon={loading ? <CircularProgress size={20} /> : <HandshakeIcon />}
+                                sx={{
+                                    fontWeight: 'bold',
+                                    px: 3,
+                                    boxShadow: '0 3px 5px 2px rgba(76, 175, 80, .3)',
+                                    '&:hover': {
+                                        boxShadow: '0 6px 10px 4px rgba(76, 175, 80, .3)',
+                                    }
+                                }}
+                            >
+                                {loading ? 'מאשר...' : 'אשר קביעת חברותא'}
+                            </Button>
+                        </DialogActions>
+                    </Dialog>
+                    
+                    {/* Snackbar להודעות */}
+                    <Snackbar
+                        open={snackbar.open}
+                        autoHideDuration={6000}
+                        onClose={() => setSnackbar({ ...snackbar, open: false })}
+                        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+                    >
+                        <Alert 
+                            onClose={() => setSnackbar({ ...snackbar, open: false })} 
+                            severity={snackbar.severity}
+                            variant="filled"
+                            sx={{ width: '100%' }}
+                        >
+                            {snackbar.message}
+                        </Alert>
+                    </Snackbar>
+                </>
+            )}
         </Box>
     );
 };
