@@ -1349,15 +1349,20 @@ export const Offer = () => {
             </Typography>
           </Box>
           <IconButton 
-            onClick={() => setDialogOpen(false)}
-            sx={{ 
-              color: 'white',
-              bgcolor: alpha('#fff', 0.1),
-              '&:hover': { bgcolor: alpha('#fff', 0.2) }
-            }}
-          >
-            <CloseIcon />
-          </IconButton>
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    setDialogOpen(false);
+                  }}
+                  sx={{ 
+                    color: 'white',
+                    bgcolor: alpha('#fff', 0.1),
+                    '&:hover': { bgcolor: alpha('#fff', 0.2) },
+                    zIndex: 1
+                  }}
+                >
+                  <CloseIcon />
+                </IconButton>
         </Box>
       </CardHeader>
 
