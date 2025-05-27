@@ -1,4 +1,5 @@
 
+
 // In the name of God
 import React, { useRef, useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -541,8 +542,10 @@ export const Request = () => {
     }
   };
 
-  const t = translations[language];
-  const textDirection = language === 'he' ? 'rtl' : 'ltr';
+
+    const t = translations[language];
+    const textDirection = language === 'he' ? 'rtl' : 'ltr';
+
 
   // Functions
   const getRequests = async () => {
@@ -669,15 +672,25 @@ export const Request = () => {
 
   const handleMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
+
+
+   
+  };
+  const handleSubjectChange = (newSubject) => {
+    setRequest({ 
+        ...request, 
+        subject: newSubject,
+        book: "" // איפוס הספר כשמשנים תחום ענין
+    });
   };
 
-  const handleMenuClose = () => {
-    setAnchorEl(null);
-  };
-
-  const handleLanguageChange = () => {
-    setLanguage(language === 'en' ? 'he' : 'en');
-    handleMenuClose();
+  const handleBookChange = (newBook) => {
+    const relatedSubject = bookToSubject[newBook];
+    setRequest({ 
+        ...request, 
+        book: newBook,
+        subject: relatedSubject || request.subject // עדכון תחום הענין אוטומטית
+    });
   };
 
   const filteredRequests = requests?.filter(request => {
@@ -694,13 +707,15 @@ export const Request = () => {
     return matchesSearch;
   });
 
-  const sortedRequests = filteredRequests?.sort((a, b) => {
-    if (sortOrder === 'asc') {
-      return a.code - b.code;
-    } else {
-      return b.code - a.code;
-    }
-  });
+
+    const sortedRequests = filteredRequests?.sort((a, b) => {
+      if (sortOrder === 'asc') {
+        return a.code - b.code;
+      } else {
+        return b.code - a.code;
+      }
+    });
+
 
   // Stats calculation
   const stats = {
@@ -1432,10 +1447,12 @@ export const Request = () => {
                       </Typography>
                       <GradientButton
                         variant="contained"
+
                         startIcon={<AddIcon />}
                         onClick={() => {
                           setIsEditMode(false);
                           setRequest({ personId: param.id, book: "", subject: "", mode: "", chavrutaCode: null });
+
                           setDialogOpen(true);
                         }}
                         sx={{ mt: 3 }}
@@ -1703,6 +1720,7 @@ export const Request = () => {
           {snackbar.message}
         </Alert>
       </Snackbar>
+
     </Box>
   );
 };
