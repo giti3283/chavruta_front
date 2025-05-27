@@ -430,17 +430,16 @@ export const ChavrutaSearchPage = () => {
 return (
   <Container maxWidth="xl">
     <Box sx={{ py: 4 }}>
-      <Fade in={!loading} timeout={1000}>
         <SearchHeader elevation={0}>
-          <Box sx={{ position: 'relative', zIndex: 1 }}>
+           {/*<Box sx={{ position: 'relative', zIndex: 1 }}>
             <Typography variant="h4" component="h1" align="center" gutterBottom fontWeight={700}>
               מערכת חיפוש חברותא
             </Typography>
             <Typography variant="body1" align="center" color="text.secondary" sx={{ mb: 4, maxWidth: '700px', mx: 'auto' }}>
               כאן תוכלו למצוא חברותות מתאימות לפי תחומי עניין, ספרים וזמנים שנוחים לכם
-            </Typography>
+            </Typography> */}
             
-            <form onSubmit={handleSearch}>
+            {/* <form onSubmit={handleSearch}>
               <StyledSearchBox>
                 <TextField
                   fullWidth
@@ -471,9 +470,9 @@ return (
                   חיפוש
                 </Button>
               </StyledSearchBox>
-            </form>
+            </form> */}
             
-            <Box sx={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', mt: 3 }}>
+            {/* <Box sx={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', mt: 3 }}>
               {subjects.slice(0, 5).map((subject) => (
                 <CategoryChip
                   key={subject.id}
@@ -484,14 +483,13 @@ return (
                   onClick={() => toggleSubject(subject.name)}
                 />
               ))}
-            </Box>
-          </Box>
+            </Box> 
+          </Box>*/}
         </SearchHeader>
-      </Fade>
 
-      <Grid container spacing={3}>
-        {/* Filter sidebar for desktop */}
-        {!isMobile && (
+      {/* <Grid container spacing={3}> */}
+        
+        {/* {!isMobile && (
           <Grid item xs={12} md={3}>
             <Fade in={!loading} timeout={1000}>
               <FilterPaper elevation={1}>
@@ -499,12 +497,12 @@ return (
               </FilterPaper>
             </Fade>
           </Grid>
-        )}
+        )} */}
         
-        {/* Results */}
-        <Grid item xs={12} md={9}>
-          {/* Mobile filter button */}
-          {isMobile && (
+       
+        {/* <Grid item xs={12} md={9}> */}
+          
+          {/* {isMobile && (
             <Box sx={{ display: 'flex', justifyContent: 'flex-end', mb: 2 }}>
               <Button
                 variant="outlined"
@@ -514,9 +512,9 @@ return (
                 סינון
               </Button>
             </Box>
-          )}
+          )} */}
           
-          {/* Active filters */}
+          
           {(selectedSubjects.length > 0 || selectedLevels.length > 0 || selectedDays.length > 0 || timeRange.from || timeRange.to || location) && (
             <Fade in={!loading} timeout={1000}>
               <Paper sx={{ p: 2, mb: 3, borderRadius: 2 }}>
@@ -585,15 +583,15 @@ return (
                 </Box>
               </Paper>
             </Fade>
-          )}
+          )} 
           
           {/* Results count */}
-          <Fade in={!loading} timeout={1000}>
+          {/* <Fade in={!loading} timeout={1000}>
             <Box sx={{ mb: 3, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <Typography variant="subtitle1" fontWeight={500}>
+               <Typography variant="subtitle1" fontWeight={500}>
                 נמצאו 24 חברותות
-              </Typography>
-              <FormControl variant="outlined" size="small" sx={{ minWidth: 120 }}>
+              </Typography> 
+               <FormControl variant="outlined" size="small" sx={{ minWidth: 120 }}>
                 <InputLabel>מיון</InputLabel>
                 <Select
                   label="מיון"
@@ -603,11 +601,11 @@ return (
                   <MenuItem value="newest">חדש ביותר</MenuItem>
                   <MenuItem value="popular">פופולרי</MenuItem>
                 </Select>
-              </FormControl>
+              </FormControl> 
             </Box>
-          </Fade>
+          </Fade>  */}
           
-          {/* Results */}
+          
           {loading ? (
             <Box>
               {Array.from(new Array(3)).map((_, index) => (
@@ -622,11 +620,11 @@ return (
           ) : (
             <ChavrutaCards requestCode={requestCode} />
           )}
-        </Grid>
-      </Grid>
+        {/* </Grid> */}
+      {/* </Grid>  */}
     </Box>
     
-    {/* Mobile filter drawer */}
+    
     <Drawer
       anchor="right"
       open={drawerOpen}

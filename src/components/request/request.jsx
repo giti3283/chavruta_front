@@ -269,8 +269,8 @@ export const Request = () => {
       search: "Search requests...",
       filterBy: "Filter by",
       all: "All",
-      books: "Books",
-      subjects: "Subjects",
+      subject: "Subject Area",
+        book: "Book (Optional)",
       methods: "Methods",
       sortBy: "Sort by",
       ascending: "Ascending",
@@ -303,8 +303,8 @@ export const Request = () => {
       addRequest: "הוספת בקשה",
       schedule: "מערכת שעות",
       id: "ת.ז",
-      book: "ספר",
-      subject: "נושא",
+      subject: "תחום ענין",
+      book: "ספר (אופציונלי)",
       learningMethod: "אופן הלמידה",
       delete: "מחק",
       edit: "ערוך",
@@ -349,6 +349,302 @@ export const Request = () => {
   const t = translations[language];
   const textDirection = language === 'he' ? 'rtl' : 'ltr';
 
+  const subjectOptions = {
+    "אמונה": [
+      "אמונות ודעות",
+      "ספר האמונות והדעות", 
+      "יסודי התורה",
+      "שמונה פרקים",
+      "מורה נבוכים",
+      "ספר העיקרים",
+      "עקרי האמונות",
+      "דרך ה'",
+      "נפש החיים",
+      "שער הבטחון",
+      "חובת התלמידים"
+    ],
+    "הלכה": [
+      "שולחן ערוך",
+      "משנה ברורה",
+      "ביאור הלכה",
+      "פסקי תשובות",
+      "שמירת שבת כהלכתה",
+      "טור",
+      "בית יוסף",
+      "ערוך השולחן",
+      "חיי אדם",
+      "כף החיים",
+      "יביע אומר",
+      "אגרות משה",
+      "מנחת יצחק",
+      "שבט הלוי"
+    ],
+    "תנ\"ך": [
+      "חומש",
+      "נביאים ראשונים",
+      "נביאים אחרונים",
+      "כתובים",
+      "מקראות גדולות",
+      "רש\"י על התנ\"ך",
+      "רמב\"ן על התורה",
+      "אבן עזרא",
+      "ספורנו",
+      "כלי יקר",
+      "אור החיים",
+      "מלבי\"ם",
+      "דעת מקרא",
+      "מצודת דוד"
+    ],
+    "תלמוד": [
+      "תלמוד בבלי",
+      "תלמוד ירושלמי",
+      "משנה",
+      "תוספות",
+      "רש\"י על הש\"ס",
+      "רמב\"ם פירוש המשניות",
+      "ברטנורא",
+      "תוספות יום טוב",
+      "תפארת ישראל",
+      "מהרש\"א",
+      "מהרש\"ל",
+      "ריטב\"א",
+      "ר\"ן",
+      "רא\"ש"
+    ],
+    "קבלה": [
+      "זוהר",
+      "עץ חיים",
+      "שער הגלגולים",
+      "פרי עץ חיים",
+      "שמונה שערים",
+      "תיקוני זוהר",
+      "זוהר חדש",
+      "ספר יצירה",
+      "בהיר",
+      "פרדס רימונים",
+      "תומר דבורה",
+      "אור יקר",
+      "מגלה עמוקות"
+    ],
+    "מוסר": [
+      "מסילת ישרים",
+      "חובות הלבבות",
+      "שערי תשובה",
+      "אורחות צדיקים",
+      "מדרגת האדם",
+      "דרך ה'",
+      "שערי קדושה",
+      "ראשית חכמה",
+      "פלא יועץ",
+      "חסד לאברהם",
+      "מעלות המידות",
+      "ספר החינוך",
+      "שמירת הלשון",
+      "אהבת חסד"
+    ],
+    "פילוסופיה יהודית": [
+      "מורה נבוכים",
+      "כוזרי",
+      "עקרי האמונות",
+      "ספר העיקרים",
+      "דרך ה'",
+      "מלחמות ה'",
+      "ספר המצוות",
+      "ספר המדע",
+      "אגרת תימן",
+      "אגרת השמד",
+      "חובת התלמידים",
+      "דעת תבונות"
+    ],
+    "חסידות": [
+      "תניא",
+      "ליקוטי מוהר\"ן",
+      "נועם אלימלך",
+      "קדושת לוי",
+      "מאור עיניים",
+      "דגל מחנה אפרים",
+      "תולדות יעקב יוסף",
+      "בן פורת יוסף",
+      "אור המאיר",
+      "מגיד דבריו ליעקב",
+      "ליקוטי יקרים",
+      "שפת אמת",
+      "דברי חיים",
+      "דברי יואל"
+    ],
+    "משנה": [
+      "זרעים",
+      "מועד", 
+      "נשים",
+      "נזיקין",
+      "קדשים",
+      "טהרות",
+      "ברכות",
+      "שבת",
+      "פסחים",
+      "יומא",
+      "סוכה",
+      "ביצה"
+    ],
+    "מדרש": [
+      "מדרש רבה",
+      "מדרש תנחומא",
+      "פסיקתא דרב כהנא",
+      "פסיקתא רבתי",
+      "ילקוט שמעוני",
+      "מדרש שמואל",
+      "מדרש תהלים",
+      "מדרש משלי",
+      "אגדת בראשית",
+      "פרקי דרבי אליעזר"
+    ]
+  };
+  
+  const bookToSubject = {
+    // ספרי אמונה
+    "אמונות ודעות": "אמונה",
+    "ספר האמונות והדעות": "אמונה",
+    "יסודי התורה": "אמונה",
+    "שמונה פרקים": "אמונה",
+    "מורה נבוכים": "אמונה",
+    "ספר העיקרים": "אמונה",
+    "עקרי האמונות": "אמונה",
+    "דרך ה'": "אמונה",
+    "נפש החיים": "אמונה",
+    "שער הבטחון": "אמונה",
+    "חובת התלמידים": "אמונה",
+    
+    // ספרי הלכה
+    "שולחן ערוך": "הלכה",
+    "משנה ברורה": "הלכה",
+    "ביאור הלכה": "הלכה",
+    "פסקי תשובות": "הלכה",
+    "שמירת שבת כהלכתה": "הלכה",
+    "טור": "הלכה",
+    "בית יוסף": "הלכה",
+    "ערוך השולחן": "הלכה",
+    "חיי אדם": "הלכה",
+    "כף החיים": "הלכה",
+    "יביע אומר": "הלכה",
+    "אגרות משה": "הלכה",
+    "מנחת יצחק": "הלכה",
+    "שבט הלוי": "הלכה",
+    
+    // ספרי תנ"ך
+    "חומש": "תנ\"ך",
+    "נביאים ראשונים": "תנ\"ך",
+    "נביאים אחרונים": "תנ\"ך",
+    "כתובים": "תנ\"ך",
+    "מקראות גדולות": "תנ\"ך",
+    "רש\"י על התנ\"ך": "תנ\"ך",
+    "רמב\"ן על התורה": "תנ\"ך",
+    "אבן עזרא": "תנ\"ך",
+    "ספורנו": "תנ\"ך",
+    "כלי יקר": "תנ\"ך",
+    "אור החיים": "תנ\"ך",
+    "מלבי\"ם": "תנ\"ך",
+    "דעת מקרא": "תנ\"ך",
+    "מצודת דוד": "תנ\"ך",
+    
+    // ספרי תלמוד
+    "תלמוד בבלי": "תלמוד",
+    "תלמוד ירושלמי": "תלמוד",
+    "משנה": "תלמוד",
+    "תוספות": "תלמוד",
+    "רש\"י על הש\"ס": "תלמוד",
+    "רמב\"ם פירוש המשניות": "תלמוד",
+    "ברטנורא": "תלמוד",
+    "תוספות יום טוב": "תלמוד",
+    "תפארת ישראל": "תלמוד",
+    "מהרש\"א": "תלמוד",
+    "מהרש\"ל": "תלמוד",
+    "ריטב\"א": "תלמוד",
+    "ר\"ן": "תלמוד",
+    "רא\"ש": "תלמוד",
+    
+    // ספרי קבלה
+    "זוהר": "קבלה",
+    "עץ חיים": "קבלה",
+    "שער הגלגולים": "קבלה",
+    "פרי עץ חיים": "קבלה",
+    "שמונה שערים": "קבלה",
+    "תיקוני זוהר": "קבלה",
+    "זוהר חדש": "קבלה",
+    "ספר יצירה": "קבלה",
+    "בהיר": "קבלה",
+    "פרדס רימונים": "קבלה",
+    "תומר דבורה": "קבלה",
+    "אור יקר": "קבלה",
+    "מגלה עמוקות": "קבלה",
+    
+    // ספרי מוסר
+    "מסילת ישרים": "מוסר",
+    "חובות הלבבות": "מוסר",
+    "שערי תשובה": "מוסר",
+    "אורחות צדיקים": "מוסר",
+    "מדרגת האדם": "מוסר",
+    "שערי קדושה": "מוסר",
+    "ראשית חכמה": "מוסר",
+    "פלא יועץ": "מוסר",
+    "חסד לאברהם": "מוסר",
+    "מעלות המידות": "מוסר",
+    "ספר החינוך": "מוסר",
+    "שמירת הלשון": "מוסר",
+    "אהבת חסד": "מוסר",
+    
+    // ספרי פילוסופיה יהודית
+    "כוזרי": "פילוסופיה יהודית",
+    "מלחמות ה'": "פילוסופיה יהודית",
+    "ספר המצוות": "פילוסופיה יהודית",
+    "ספר המדע": "פילוסופיה יהודית",
+    "אגרת תימן": "פילוסופיה יהודית",
+    "אגרת השמד": "פילוסופיה יהודית",
+    "דעת תבונות": "פילוסופיה יהודית",
+    
+    // ספרי חסידות
+    "תניא": "חסידות",
+    "ליקוטי מוהר\"ן": "חסידות",
+    "נועם אלימלך": "חסידות",
+    "קדושת לוי": "חסידות",
+    "מאור עיניים": "חסידות",
+    "דגל מחנה אפרים": "חסידות",
+    "תולדות יעקב יוסף": "חסידות",
+    "בן פורת יוסף": "חסידות",
+    "אור המאיר": "חסידות",
+    "מגיד דבריו ליעקב": "חסידות",
+    "ליקוטי יקרים": "חסידות",
+    "שפת אמת": "חסידות",
+    "דברי חיים": "חסידות",
+    "דברי יואל": "חסידות",
+    
+    // ספרי משנה
+    "זרעים": "משנה",
+    "מועד": "משנה",
+    "נשים": "משנה",
+    "נזיקין": "משנה",
+    "קדשים": "משנה",
+    "טהרות": "משנה",
+    "ברכות": "משנה",
+    "שבת": "משנה",
+    "פסחים": "משנה",
+    "יומא": "משנה",
+    "סוכה": "משנה",
+    "ביצה": "משנה",
+    
+    // ספרי מדרש
+    "מדרש רבה": "מדרש",
+    "מדרש תנחומא": "מדרש",
+    "פסיקתא דרב כהנא": "מדרש",
+    "פסיקתא רבתי": "מדרש",
+    "ילקוט שמעוני": "מדרש",
+    "מדרש שמואל": "מדרש",
+    "מדרש תהלים": "מדרש",
+    "מדרש משלי": "מדרש",
+    "אגדת בראשית": "מדרש",
+    "פרקי דרבי אליעזר": "מדרש"
+  };
+  
+  
   // Functions
   const getRequest = async () => {
     setLoading(true);
@@ -375,34 +671,35 @@ export const Request = () => {
   }, []);
 
   const addRequest = async () => {
-    if (!request.book || !request.subject || !request.mode) {
-      setSnackbar({
-        open: true,
-        message: language === 'en' ? "Please fill all fields" : "אנא מלא את כל השדות",
-        severity: "warning"
-      });
-      return;
+    if (!request.subject || !request.mode) {
+        setSnackbar({
+            open: true,
+            message: language === 'en' ? "Please fill required fields" : "אנא מלא את השדות הנדרשים",
+            severity: "warning"
+        });
+        return;
     }
     
     setLoading(true);
     try {
-      await dispatch(AddRequestsThunk(request));
-      setOpen(false);
-      setRequest({ personId: param.id, book: "", subject: "", mode: "", chavrutaCode: null });
-      setSnackbar({        open: true,
-        message: t.requestAdded,
-        severity: "success"
-      });
+        await dispatch(AddRequestsThunk(request));
+        setOpen(false);
+        setRequest({ personId: param.id, book: "", subject: "", mode: "", chavrutaCode: null });
+        setSnackbar({
+            open: true,
+            message: t.requestAdded,
+            severity: "success"
+        });
     } catch (error) {
-      setSnackbar({
-        open: true,
-        message: language === 'en' ? "Failed to add request" : "הוספת הבקשה נכשלה",
-        severity: "error"
-      });
+        setSnackbar({
+            open: true,
+            message: language === 'en' ? "Failed to add request" : "הוספת הבקשה נכשלה",
+            severity: "error"
+        });
     } finally {
-      setLoading(false);
+        setLoading(false);
     }
-  };
+};
 
   const deleteRequest = async (code) => {
     setConfirmDeleteOpen(false);
@@ -426,35 +723,52 @@ export const Request = () => {
   };
 
   const updateRequest = async () => {
-    if (!request.book || !request.subject || !request.mode) {
-      setSnackbar({
-        open: true,
-        message: language === 'en' ? "Please fill all fields" : "אנא מלא את כל השדות",
-        severity: "warning"
-      });
-      return;
+    if (!request.subject || !request.mode) {
+        setSnackbar({
+            open: true,
+            message: language === 'en' ? "Please fill required fields" : "אנא מלא את השדות הנדרשים",
+            severity: "warning"
+        });
+        return;
     }
     
     setLoading(true);
     try {
-      dispatch(editRequest(request));
-      await dispatch(UpdateRequestThunk({ code: request.code, request: request }));
-      setOpen(false);
-      setSnackbar({
-        open: true,
-        message: t.requestUpdated,
-        severity: "success"
-      });
+        dispatch(editRequest(request));
+        await dispatch(UpdateRequestThunk({ code: request.code, request: request }));
+        setOpen(false);
+        setSnackbar({
+            open: true,
+            message: t.requestUpdated,
+            severity: "success"
+        });
     } catch (error) {
-      setSnackbar({
-        open: true,
-        message: language === 'en' ? "Failed to update request" : "עדכון הבקשה נכשל",
-        severity: "error"
-      });
+        setSnackbar({
+            open: true,
+            message: language === 'en' ? "Failed to update request" : "עדכון הבקשה נכשל",
+            severity: "error"
+        });
     } finally {
-      setLoading(false);
+        setLoading(false);
     }
-  };
+};
+const handleSubjectChange = (newSubject) => {
+  setRequest({ 
+      ...request, 
+      subject: newSubject,
+      book: "" // איפוס הספר כשמשנים תחום ענין
+  });
+};
+
+const handleBookChange = (newBook) => {
+  const relatedSubject = bookToSubject[newBook];
+  setRequest({ 
+      ...request, 
+      book: newBook,
+      subject: relatedSubject || request.subject // עדכון תחום הענין אוטומטית
+  });
+};
+
 
   const handleMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -1103,68 +1417,82 @@ export const Request = () => {
         </DialogTitle>
         
         <DialogContent sx={{ mt: 2 }}>
-          <Grid container spacing={3} sx={{ mt: 0 }}>
-            <Grid item xs={12}>
-              <Typography variant="subtitle1" fontWeight="medium" gutterBottom>
+    <Grid container spacing={3} sx={{ mt: 0 }}>
+        <Grid item xs={12}>
+            <Typography variant="subtitle1" fontWeight="medium" gutterBottom>
                 {t.id}
-              </Typography>
-              <Typography variant="body1">
+            </Typography>
+            <Typography variant="body1">
                 {param.id}
-              </Typography>
-            </Grid>
-            
-            <Grid item xs={12}>
-              <TextField
-                fullWidth
-                label={t.book}
-                variant="outlined"
-                value={request.book}
-                onChange={(e) => setRequest({ ...request, book: e.target.value })}
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <BookIcon color="secondary" />
-                    </InputAdornment>
-                  ),
-                }}
-              />
-            </Grid>
-            
-            <Grid item xs={12}>
-              <TextField
-                fullWidth
-                label={t.subject}
-                variant="outlined"
-                value={request.subject}
-                onChange={(e) => setRequest({ ...request, subject: e.target.value })}
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <SubjectIcon color="secondary" />
-                    </InputAdornment>
-                  ),
-                }}
-              />
-            </Grid>
-            
-            <Grid item xs={12}>
-              <TextField
-                fullWidth
-                label={t.learningMethod}
-                variant="outlined"
-                value={request.mode}
-                onChange={(e) => setRequest({ ...request, mode: e.target.value })}
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <SchoolIcon color="secondary" />
-                    </InputAdornment>
-                  ),
-                }}
-              />
-            </Grid>
-          </Grid>
-        </DialogContent>
+            </Typography>
+        </Grid>
+        
+        <Grid item xs={12}>
+            <FormControl fullWidth variant="outlined">
+                <InputLabel>{t.subject}</InputLabel>
+                <Select
+                    value={request.subject}
+                    onChange={(e) => handleSubjectChange(e.target.value)}
+                    label={t.subject}
+                    startAdornment={
+                        <InputAdornment position="start">
+                            <SubjectIcon color="secondary" />
+                        </InputAdornment>
+                    }
+                >
+                    {Object.keys(subjectOptions).map((subject) => (
+                        <MenuItem key={subject} value={subject}>
+                            {subject}
+                        </MenuItem>
+                    ))}
+                </Select>
+            </FormControl>
+        </Grid>
+        
+        <Grid item xs={12}>
+            <FormControl fullWidth variant="outlined">
+                <InputLabel>{t.book}</InputLabel>
+                <Select
+                    value={request.book}
+                    onChange={(e) => handleBookChange(e.target.value)}
+                    label={t.book}
+                    disabled={!request.subject}
+                    startAdornment={
+                        <InputAdornment position="start">
+                            <BookIcon color="secondary" />
+                        </InputAdornment>
+                    }
+                >
+                    <MenuItem value="">
+                        <em>ללא ספר ספציפי</em>
+                    </MenuItem>
+                    {request.subject && subjectOptions[request.subject]?.map((book) => (
+                        <MenuItem key={book} value={book}>
+                            {book}
+                        </MenuItem>
+                    ))}
+                </Select>
+            </FormControl>
+        </Grid>
+        
+        <Grid item xs={12} md={6}>
+  <FormControl fullWidth required>
+    <InputLabel>אופן הלימוד</InputLabel>
+    <Select
+      value={request.studyMethod}
+      label="אופן הלימוד"
+      onChange={(e) => setRequest({ ...request, studyMethod: e.target.value })}
+    >
+      <MenuItem value="פנים אל פנים">פנים אל פנים</MenuItem>
+      <MenuItem value="זום">זום</MenuItem>
+      <MenuItem value="טלפון">טלפון</MenuItem>
+      <MenuItem value="היברידי">היברידי</MenuItem>
+      <MenuItem value="מקוון">מקוון (כללי)</MenuItem>
+    </Select>
+  </FormControl>
+</Grid>
+    </Grid>
+</DialogContent>
         
         <DialogActions sx={{ p: 3 }}>
           <Button

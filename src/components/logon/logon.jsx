@@ -5,18 +5,18 @@ import { useNavigate, useParams } from "react-router-dom";
 import './logon.css';
 
 // Material UI
-import { 
-  Box, 
-  Button, 
-  FormControl, 
-  FormControlLabel, 
-  InputAdornment, 
-  InputLabel, 
-  MenuItem, 
-  Radio, 
-  RadioGroup, 
-  Select, 
-  Stack, 
+import {
+  Box,
+  Button,
+  FormControl,
+  FormControlLabel,
+  InputAdornment,
+  InputLabel,
+  MenuItem,
+  Radio,
+  RadioGroup,
+  Select,
+  Stack,
   TextField,
   Typography,
   Container,
@@ -85,12 +85,12 @@ const IconBox = styled(Box)(({ theme }) => ({
 
 const filterOptions = (options, { inputValue }) => {
   const inputValueHebrew = inputValue.trim().toLowerCase();
-  
+
   if (inputValueHebrew === '') {
     return options;
   }
-  
-  return options.filter(option => 
+
+  return options.filter(option =>
     option.label.toLowerCase().includes(inputValueHebrew)
   );
 };
@@ -184,20 +184,20 @@ const getCustomTheme = (theme) => createTheme({
 export const Logon = () => {
   const dispatch = useDispatch();
   const param = useParams();
-  const [person, setPerson] = useState({ 
-    id: param.id, 
-    firstName: param.firstName, 
-    lastName: param.lastName, 
-    birthDate: '', 
-    gender: 'male', 
-    status: 'single', 
-    cellularTelephone: '', 
-    telephone: '', 
-    country: null, // שינינו לnull במקום מחרוזת ריקה
-    city: null,    // שינינו לnull במקום מחרוזת ריקה
-    email: '', 
-    role: '', 
-    denomination: 'generic' 
+  const [person, setPerson] = useState({
+    id: param.id,
+    firstName: param.firstName,
+    lastName: param.lastName,
+    birthDate: '',
+    gender: 'male',
+    status: 'single',
+    cellularTelephone: '',
+    telephone: '',
+    country: null,
+    city: null,  
+    email: '',
+    role: '',
+    denomination: ''
   });
   const [activeStep, setActiveStep] = useState(0);
   const [error, setError] = useState('');
@@ -223,7 +223,7 @@ export const Logon = () => {
 
   const handleNext = () => {
     if (activeStep === 0) {
-      if (!person.birthDate || !person.gender || !person.status) {
+      if (!person.birthDate || !person.gender || !person.status || !person.denomination) {
         setError('אנא מלאו את כל השדות הנדרשים');
         return;
       }
@@ -233,7 +233,7 @@ export const Logon = () => {
         return;
       }
     }
-    
+
     setError('');
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
   };
@@ -243,18 +243,18 @@ export const Logon = () => {
   };
 
   const log = async () => {
-    if (!person.role || !person.denomination) {
-      setError('אנא בחרו את תפקידכם והזרם שלכם');
+    if (!person.role ) {
+      setError(' אנא בחרו את תפקידכם');
       return;
     }
-    
+
     // המרת אובייקטים למחרוזות לפני שליחה לשרת
     const personToSubmit = {
       ...person,
       country: person.country ? person.country.label : '',
       city: person.city ? person.city.label : ''
     };
-    
+
     dispatch(AddPersonThunk(personToSubmit));
     if (person.role === "request")
       navi(`/request/${person.id}`);
@@ -264,18 +264,18 @@ export const Logon = () => {
 
   return (
     <ThemeProvider theme={customTheme}>
-      <Box sx={{ 
-        minHeight: '100vh', 
+      <Box sx={{
+        minHeight: '100vh',
         background: 'linear-gradient(135deg, #fffcf2 0%, #fff9e6 100%)',
         py: 6
       }}>
         <Container maxWidth="md" className="fade-in">
           <Box sx={{ mb: 6, textAlign: 'center' }}>
-            <Typography 
-              variant="h3" 
-              component="h1" 
-              sx={{ 
-                fontWeight: 700, 
+            <Typography
+              variant="h3"
+              component="h1"
+              sx={{
+                fontWeight: 700,
                 color: '#1e293b',
                 mb: 2,
                 background: 'linear-gradient(135deg, #4f46e5 0%, #7c3aed 50%, #db2777 100%)',
@@ -289,7 +289,7 @@ export const Logon = () => {
               אנו שמחים שבחרתם להצטרף לקהילת חברותא קונקט. אנא מלאו את הפרטים הבאים כדי שנוכל להתאים לכם חברותא מושלמת.
             </Typography>
           </Box>
-          
+
           <StyledPaper elevation={3}>
             <StyledStepper activeStep={activeStep} alternativeLabel sx={{ mb: 5 }}>
               {steps.map((label) => (
@@ -298,12 +298,12 @@ export const Logon = () => {
                 </Step>
               ))}
             </StyledStepper>
-            
+
             {error && (
-              <Alert 
-                severity="error" 
-                sx={{ 
-                  mb: 3, 
+              <Alert
+                severity="error"
+                sx={{
+                  mb: 3,
                   borderRadius: 2,
                   '& .MuiAlert-icon': {
                     color: '#db2777'
@@ -326,15 +326,15 @@ export const Logon = () => {
                       <FaCalendarAlt style={{ color: '#7c3aed', marginRight: '8px' }} />
                       <Typography variant="body2" color="text.secondary">תאריך לידה</Typography>
                     </Box>
-                    <StyledTextField 
-                      value={person.birthDate} 
-                      type="date" 
-                      id="birthDate" 
-                      variant="outlined" 
+                    <StyledTextField
+                      value={person.birthDate}
+                      type="date"
+                      id="birthDate"
+                      variant="outlined"
                       fullWidth
                       required
                       InputLabelProps={{ shrink: true }}
-                      onChange={x => setPerson({ ...person, birthDate: x.target.value })} 
+                      onChange={x => setPerson({ ...person, birthDate: x.target.value })}
                     />
                   </Grid>
                   <Grid item xs={12} md={6}>
@@ -391,12 +391,15 @@ export const Logon = () => {
                         label="זרם"
                         onChange={e => setPerson({ ...person, denomination: e.target.value })}
                       >
-                        <MenuItem value={"spaniard"}>ספרדי</MenuItem>
+                        <MenuItem value={"traditional"}>מסורתי</MenuItem>
+                        <MenuItem value={"sephardic"}>ספרדי</MenuItem>
                         <MenuItem value={"ashkenazi"}>אשכנזי</MenuItem>
-                        <MenuItem value={"yemeni"}>תימני</MenuItem>
-                        <MenuItem value={"moroccan"}>מרוקאי</MenuItem>
-                        <MenuItem value={"generic"}>כללי</MenuItem>
-                        <MenuItem value={"another"}>אחר</MenuItem>
+                        <MenuItem value={"mizrahi"}>מזרחי</MenuItem>
+                        <MenuItem value={"hasidic"}>חסידי</MenuItem>
+                        <MenuItem value={"lithuanian"}>ליטאי</MenuItem>
+                        <MenuItem value={"yemenite"}>תימני</MenuItem>
+                        <MenuItem value={"ethiopian"}>אתיופי</MenuItem>
+                        <MenuItem value={"other"}>אחר</MenuItem>
                       </StyledSelect>
                     </FormControl>
                   </Grid>
@@ -404,32 +407,32 @@ export const Logon = () => {
               </Box>
             )}
 
-{activeStep === 1 && (
-        <Box sx={{ px: { xs: 1, md: 3 } }}>
-          <IconBox>
-            <FaPhone />
-            <SectionTitle variant="h5">פרטי קשר</SectionTitle>
-          </IconBox>
-          <Grid container spacing={3}>
+            {activeStep === 1 && (
+              <Box sx={{ px: { xs: 1, md: 3 } }}>
+                <IconBox>
+                  <FaPhone />
+                  <SectionTitle variant="h5">פרטי קשר</SectionTitle>
+                </IconBox>
+                <Grid container spacing={3}>
                   <Grid item xs={12} md={6}>
-                    <TextField 
-                      value={person.cellularTelephone} 
-                      id="cellularTelephone" 
-                      label="טלפון נייד" 
-                      variant="outlined" 
+                    <TextField
+                      value={person.cellularTelephone}
+                      id="cellularTelephone"
+                      label="טלפון נייד"
+                      variant="outlined"
                       fullWidth
                       required
-                      onChange={x => setPerson({ ...person, cellularTelephone: x.target.value })} 
+                      onChange={x => setPerson({ ...person, cellularTelephone: x.target.value })}
                     />
                   </Grid>
                   <Grid item xs={12} md={6}>
-                    <TextField 
-                      value={person.telephone} 
-                      id="telephone" 
-                      label="טלפון קווי" 
-                      variant="outlined" 
+                    <TextField
+                      value={person.telephone}
+                      id="telephone"
+                      label="טלפון קווי"
+                      variant="outlined"
                       fullWidth
-                      onChange={x => setPerson({ ...person, telephone: x.target.value })} 
+                      onChange={x => setPerson({ ...person, telephone: x.target.value })}
                     />
                   </Grid>
                   <Grid item xs={12}>
@@ -446,134 +449,134 @@ export const Logon = () => {
                     />
                   </Grid>
                   <Grid item xs={12} md={6}>
-  <Box sx={{ display: 'flex', alignItems: 'flex-end', mb: 1 }}>
-    <FaMapMarkerAlt style={{ color: '#7c3aed', marginRight: '8px' }} />
-    <Typography variant="body2" color="text.secondary">מדינה</Typography>
-  </Box>
-  <Autocomplete
-    id="country"
-    options={countries}
-    value={person.country}
-    onChange={(event, newValue) => {
-      setPerson({ ...person, country: newValue, city: null });
-    }}
-    getOptionLabel={(option) => option.label || ''}
-    isOptionEqualToValue={(option, value) => option.code === value?.code}
-    renderInput={(params) => (
-      <StyledTextField
-        {...params}
-        label="מדינה"
-        required
-        fullWidth
-        error={error && !person.country}
-        helperText={error && !person.country ? "יש לבחור מדינה" : ""}
-        dir="rtl"
-        InputProps={{
-          ...params.InputProps,
-          sx: { 
-            direction: 'rtl',
-            '& .MuiAutocomplete-endAdornment': {
-              right: 'auto',
-              left: '9px',
-            }
-          }
-        }}
-      />
-    )}
-    renderOption={(props, option) => (
-      <Box component="li" {...props} sx={{ display: 'flex', alignItems: 'center', direction: 'rtl' }}>
-        <Box 
-          component="img" 
-          loading="lazy"
-          className="country-option-flag"
-          src={`https://purecatamphetamine.github.io/country-flag-icons/3x2/${option.code}.svg`}
-          alt=""
-        />
-        <span className="country-option-label">{option.label}</span>
-      </Box>
-    )}
-    componentsProps={{
-      popper: {
-        sx: { direction: 'rtl' }
-      },
-      paper: {
-        elevation: 8,
-        sx: {
-          '& .MuiAutocomplete-listbox': {
-            padding: '4px 0'
-          }
-        }
-      }
-    }}
-    autoHighlight
-    openOnFocus
-  />
-</Grid>
+                    <Box sx={{ display: 'flex', alignItems: 'flex-end', mb: 1 }}>
+                      <FaMapMarkerAlt style={{ color: '#7c3aed', marginRight: '8px' }} />
+                      <Typography variant="body2" color="text.secondary">מדינה</Typography>
+                    </Box>
+                    <Autocomplete
+                      id="country"
+                      options={countries}
+                      value={person.country}
+                      onChange={(event, newValue) => {
+                        setPerson({ ...person, country: newValue, city: null });
+                      }}
+                      getOptionLabel={(option) => option.label || ''}
+                      isOptionEqualToValue={(option, value) => option.code === value?.code}
+                      renderInput={(params) => (
+                        <StyledTextField
+                          {...params}
+                          label="מדינה"
+                          required
+                          fullWidth
+                          error={error && !person.country}
+                          helperText={error && !person.country ? "יש לבחור מדינה" : ""}
+                          dir="rtl"
+                          InputProps={{
+                            ...params.InputProps,
+                            sx: {
+                              direction: 'rtl',
+                              '& .MuiAutocomplete-endAdornment': {
+                                right: 'auto',
+                                left: '9px',
+                              }
+                            }
+                          }}
+                        />
+                      )}
+                      renderOption={(props, option) => (
+                        <Box component="li" {...props} sx={{ display: 'flex', alignItems: 'center', direction: 'rtl' }}>
+                          <Box
+                            component="img"
+                            loading="lazy"
+                            className="country-option-flag"
+                            src={`https://purecatamphetamine.github.io/country-flag-icons/3x2/${option.code}.svg`}
+                            alt=""
+                          />
+                          <span className="country-option-label">{option.label}</span>
+                        </Box>
+                      )}
+                      componentsProps={{
+                        popper: {
+                          sx: { direction: 'rtl' }
+                        },
+                        paper: {
+                          elevation: 8,
+                          sx: {
+                            '& .MuiAutocomplete-listbox': {
+                              padding: '4px 0'
+                            }
+                          }
+                        }
+                      }}
+                      autoHighlight
+                      openOnFocus
+                    />
+                  </Grid>
 
-<Grid item xs={12} md={6}>
-  <Box sx={{ display: 'flex', alignItems: 'flex-end', mb: 1 }}>
-    <FaMapMarkerAlt style={{ color: '#7c3aed', marginRight: '8px' }} />
-    <Typography variant="body2" color="text.secondary">עיר</Typography>
-  </Box>
-  <Autocomplete
-    id="city"
-    options={availableCities}
-    filterOptions={filterOptions}
-    value={person.city}
-    onChange={(event, newValue) => {
-      setPerson({ ...person, city: newValue });
-    }}
-    getOptionLabel={(option) => option.label || ''}
-    isOptionEqualToValue={(option, value) => option.code === value.code}
-    disabled={!person.country}
-    renderInput={(params) => (
-      <StyledTextField
-        {...params}
-        label="עיר"
-        required
-        fullWidth
-        error={error && !person.city && person.country}
-        helperText={
-          !person.country 
-            ? "יש לבחור מדינה תחילה" 
-            : error && !person.city 
-              ? "יש לבחור עיר" 
-              : ""
-        }
-        dir="rtl" 
-        InputProps={{
-          ...params.InputProps,
-          sx: { 
-            direction: 'rtl', 
-            '& .MuiAutocomplete-endAdornment': {
-              right: 'auto', 
-              left: '9px', 
-            }
-          }
-        }}
-      />
-    )}
-    renderOption={(props, option) => (
-      <Box component="li" {...props} sx={{ direction: 'rtl' }}>
-        {option.label}
-      </Box>
-    )}
-    noOptionsText="לא נמצאו ערים"
-    autoHighlight
-    openOnFocus
-    disablePortal
-    sx={{ 
-      '& .MuiAutocomplete-endAdornment': { 
-        right: 'auto', 
-        left: 9 
-      } 
-    }}
-  />
-</Grid>
-          </Grid>
-        </Box>
-      )}
-      
+                  <Grid item xs={12} md={6}>
+                    <Box sx={{ display: 'flex', alignItems: 'flex-end', mb: 1 }}>
+                      <FaMapMarkerAlt style={{ color: '#7c3aed', marginRight: '8px' }} />
+                      <Typography variant="body2" color="text.secondary">עיר</Typography>
+                    </Box>
+                    <Autocomplete
+                      id="city"
+                      options={availableCities}
+                      filterOptions={filterOptions}
+                      value={person.city}
+                      onChange={(event, newValue) => {
+                        setPerson({ ...person, city: newValue });
+                      }}
+                      getOptionLabel={(option) => option.label || ''}
+                      isOptionEqualToValue={(option, value) => option.code === value.code}
+                      disabled={!person.country}
+                      renderInput={(params) => (
+                        <StyledTextField
+                          {...params}
+                          label="עיר"
+                          required
+                          fullWidth
+                          error={error && !person.city && person.country}
+                          helperText={
+                            !person.country
+                              ? "יש לבחור מדינה תחילה"
+                              : error && !person.city
+                                ? "יש לבחור עיר"
+                                : ""
+                          }
+                          dir="rtl"
+                          InputProps={{
+                            ...params.InputProps,
+                            sx: {
+                              direction: 'rtl',
+                              '& .MuiAutocomplete-endAdornment': {
+                                right: 'auto',
+                                left: '9px',
+                              }
+                            }
+                          }}
+                        />
+                      )}
+                      renderOption={(props, option) => (
+                        <Box component="li" {...props} sx={{ direction: 'rtl' }}>
+                          {option.label}
+                        </Box>
+                      )}
+                      noOptionsText="לא נמצאו ערים"
+                      autoHighlight
+                      openOnFocus
+                      disablePortal
+                      sx={{
+                        '& .MuiAutocomplete-endAdornment': {
+                          right: 'auto',
+                          left: 9
+                        }
+                      }}
+                    />
+                  </Grid>
+                </Grid>
+              </Box>
+            )}
+
 
             {activeStep === 2 && (
               <Box>
@@ -594,26 +597,26 @@ export const Logon = () => {
                       value={person.role}
                       onChange={e => setPerson({ ...person, role: e.target.value })}
                     >
-                      <FormControlLabel 
-                        value="offer" 
-                        control={<Radio color="primary" />} 
+                      <FormControlLabel
+                        value="offer"
+                        control={<Radio color="primary" />}
                         label={
                           <Box sx={{ display: 'flex', alignItems: 'center' }}>
                             <Typography variant="body1" sx={{ fontWeight: 500 }}>מציע (מלמד)</Typography>
                           </Box>
-                        } 
+                        }
                         sx={{ mr: 4 }}
                       />
-                      <FormControlLabel 
-                        value="request" 
+                      <FormControlLabel
+                        value="request"
                         control={
                           <Radio color="primary" />
-                        } 
+                        }
                         label={
                           <Box sx={{ display: 'flex', alignItems: 'center' }}>
                             <Typography variant="body1" sx={{ fontWeight: 500 }}>מבקש (לומד)</Typography>
                           </Box>
-                        } 
+                        }
                       />
                     </RadioGroup>
                   </FormControl>
@@ -632,11 +635,11 @@ export const Logon = () => {
               </Button>
               <Box>
                 {activeStep === steps.length - 1 ? (
-                  <Button 
-                    variant="contained" 
+                  <Button
+                    variant="contained"
                     onClick={log}
-                    sx={{ 
-                      borderRadius: 2, 
+                    sx={{
+                      borderRadius: 2,
                       px: 4,
                       backgroundColor: '#3f51b5',
                       '&:hover': {
@@ -647,11 +650,11 @@ export const Logon = () => {
                     סיום והרשמה
                   </Button>
                 ) : (
-                  <Button 
-                    variant="contained" 
+                  <Button
+                    variant="contained"
                     onClick={handleNext}
-                    sx={{ 
-                      borderRadius: 2, 
+                    sx={{
+                      borderRadius: 2,
                       px: 3,
                       backgroundColor: '#3f51b5',
                       '&:hover': {
