@@ -304,15 +304,20 @@ export const Login = () => {
                 return;
             }
         }
-        if (formStep === 1 && !person.firstName) {
-            setError("נא להזין שם פרטי");
-            return;
+        if (formStep === 1) {
+            if (!person.firstName) {
+                setError("נא להזין שם פרטי");
+                return;
+            }
+            if (!person.lastName) {
+                setError("נא להזין שם משפחה");
+                return;
+            }
         }
         
         setError("");
         setFormStep(prev => prev + 1);
     };
-    
 
     const handlePrevStep = () => {
         setFormStep(prev => prev - 1);
