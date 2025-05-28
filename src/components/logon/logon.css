@@ -1,26 +1,50 @@
-/*  בס"ד */
-#d{
-    border: black solid 2px;
-    width: 400px;
-    padding: 2%;
-    margin-left: 20%;
-    /* font-family: cursive; */
+/* Enhanced CSS animations for Chavruta Logon Component */
+
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 
-#lg{
-    background-color: black;
-    color: white;
-    margin-top: 30px;
-}
-/* ************************************* */
-.fade-in {
-  animation: fadeIn 0.8s ease-in-out;
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
 }
 
-@keyframes fadeIn {
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+  20%, 40%, 60%, 80% { transform: translateX(5px); }
+}
+
+@keyframes bounceIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.3) translateY(-50%);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.05) translateY(-50%);
+  }
+  70% {
+    transform: scale(0.9) translateY(-50%);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(-50%);
+  }
+}
+
+@keyframes slideInUp {
   from {
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(30px);
   }
   to {
     opacity: 1;
@@ -28,158 +52,224 @@
   }
 }
 
-/* RTL support for Material UI components */
-.MuiFormControl-root,
-.MuiInputLabel-root,
-.MuiOutlinedInput-root,
-.MuiSelect-root,
-.MuiMenuItem-root,
-.MuiTypography-root,
-.MuiButton-root {
-  font-family: 'Rubik', 'Assistant', sans-serif !important;
+@keyframes fadeInScale {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
-/* Improve focus states */
-.MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
-  border-color: #3f51b5 !important;
-  border-width: 2px;
+/* Flag icon hover effects */
+.flag-icon {
+  transition: all 0.3s ease;
 }
 
-/* Hover effects for paper */
-.MuiPaper-root {
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+.flag-icon:hover {
+  transform: scale(1.1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 
-.MuiPaper-root:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.15);
-}
-
-/* Custom scrollbar */
-::-webkit-scrollbar {
+/* Custom scrollbar for autocomplete dropdowns */
+.MuiAutocomplete-listbox::-webkit-scrollbar {
   width: 8px;
 }
 
-::-webkit-scrollbar-track {
+.MuiAutocomplete-listbox::-webkit-scrollbar-track {
   background: #f1f1f1;
   border-radius: 10px;
 }
 
-::-webkit-scrollbar-thumb {
-  background: #c5cae9;
+.MuiAutocomplete-listbox::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, #D4A574 0%, #8B4513 100%);
   border-radius: 10px;
 }
 
-::-webkit-scrollbar-thumb:hover {
-  background: #3f51b5;
+.MuiAutocomplete-listbox::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(135deg, #8B4513 0%, #D4A574 100%);
 }
 
-label{
-   font-size: larger;
+/* Enhanced focus styles for accessibility */
+.MuiTextField-root:focus-within {
+  transform: translateY(-2px);
+  transition: transform 0.2s ease;
 }
 
-input{
-    width: 80%;
-    margin-top: 10px;
-    margin-bottom: 10px;
-    height: 30px;
-    font-size: medium;
-    font-family:cursive ;
+/* Responsive design enhancements */
+@media (max-width: 768px) {
+  .welcome-header {
+    padding: 2rem 1rem;
+  }
+  
+  .step-card {
+    margin: 0 0.5rem;
+  }
+  
+  .stats-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
 }
 
-
-/* ========== */
-.container {
-    display: block;
-    position: relative;
-    padding-left: 35px;
-    margin-bottom: 12px;
-    cursor: pointer;
-    font-size: 22px;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
+@media (max-width: 480px) {
+  .MuiStepper-root {
+    flex-direction: column;
   }
   
-  /* Hide the browser's default radio button */
-  .container input {
-    position: absolute;
-    opacity: 0;
-    cursor: pointer;
+  .step-navigation {
+    flex-direction: column;
+    gap: 1rem;
   }
   
-  /* Create a custom radio button */
-  .checkmark {
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 25px;
-    width: 25px;
-    background-color: #eee;
-    border-radius: 50%;
+  .step-navigation button {
+    width: 100%;
   }
-  
-  /* On mouse-over, add a grey background color */
-  .container:hover input ~ .checkmark {
-    background-color: #ccc;
-  }
-  
-  /* When the radio button is checked, add a blue background */
-  .container input:checked ~ .checkmark {
-    background-color: #2196F3;
-  }
-  
-  /* Create the indicator (the dot/circle - hidden when not checked) */
-  .checkmark:after {
-    content: "";
-    position: absolute;
-    display: none;
-  }
-  
-  /* Show the indicator (dot/circle) when checked */
-  .container input:checked ~ .checkmark:after {
-    display: block;
-  }
-  
-  /* Style the indicator (dot/circle) */
-  .container .checkmark:after {
-       top: 9px;
-      left: 9px;
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: white;
-  }
-
-  /* /////////////////////// */
-  /* סגנונות לתצוגת דגלים ברשימת המדינות */
-.country-option-flag {
-  width: 16px !important;
-  height: 12px !important;
-  margin-left: 8px !important;
-  object-fit: contain !important;
-  flex-shrink: 0 !important;
 }
 
-/* סגנונות לתיבת האפשרויות של בחירת מדינה */
-.MuiAutocomplete-popper .MuiAutocomplete-listbox .MuiAutocomplete-option {
-  display: flex !important;
-  align-items: center !important;
-  padding: 6px 16px !important;
-  direction: rtl !important;
+/* Print styles */
+@media print {
+  .step-navigation,
+  .progress-indicator {
+    display: none !important;
+  }
+  
+  .step-card {
+    box-shadow: none !important;
+    border: 1px solid #000;
+  }
 }
 
-/* מניעת גלישה של טקסט ארוך */
-.country-option-label {
-  flex-grow: 1 !important;
-  white-space: nowrap !important;
-  overflow: hidden !important;
-  text-overflow: ellipsis !important;
-  max-width: calc(100% - 30px) !important;
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .flag-icon {
+    border: 2px solid currentColor;
+  }
+  
+  .step-card {
+    border: 2px solid currentColor;
+  }
 }
 
-/* הגדלת גובה האפשרויות ברשימה */
-.MuiAutocomplete-popper .MuiAutocomplete-listbox {
-  max-height: 300px !important;
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Custom selection colors */
+::selection {
+  background-color: #D4A574;
+  color: #2E5266;
+}
+
+::-moz-selection {
+  background-color: #D4A574;
+  color: #2E5266;
+}
+
+/* Loading states */
+.loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(46, 82, 102, 0.8);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+/* Success animations */
+@keyframes successPulse {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(39, 174, 96, 0.7);
+  }
+  70% {
+    transform: scale(1.05);
+    box-shadow: 0 0 0 10px rgba(39, 174, 96, 0);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(39, 174, 96, 0);
+  }
+}
+
+.success-animation {
+  animation: successPulse 0.6s ease-out;
+}
+
+/* Enhanced button hover effects */
+.MuiButton-root {
+  position: relative;
+  overflow: hidden;
+}
+
+.MuiButton-root::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  transition: left 0.5s;
+}
+
+.MuiButton-root:hover::before {
+  left: 100%;
+}
+
+/* Tooltip enhancements */
+.MuiTooltip-tooltip {
+  background: linear-gradient(135deg, #2E5266 0%, #1A3A4A 100%);
+  color: white;
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Form validation animations */
+.field-success {
+  animation: successPulse 0.6s ease-out;
+}
+
+.field-error {
+  animation: shake 0.6s ease-in-out;
+}
+
+/* Step transition effects */
+.step-enter {
+  opacity: 0;
+  transform: translateX(50px);
+}
+
+.step-enter-active {
+  opacity: 1;
+  transform: translateX(0);
+  transition: opacity 300ms, transform 300ms;
+}
+
+.step-exit {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.step-exit-active {
+  opacity: 0;
+  transform: translateX(-50px);
+  transition: opacity 300ms, transform 300ms;
 }

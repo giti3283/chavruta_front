@@ -656,6 +656,7 @@ export const Request = () => {
         message: "🔍 Searching for your perfect Chavruta...",
         severity: "info"
       });
+      navigate(`/chavruta/${requestCode}`);
     } catch (error) {
       setSnackbar({
         open: true,
@@ -1255,9 +1256,10 @@ export const Request = () => {
                 <TableRow>
                 <StyledTableCell align="center">
                     <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 1 }}>
-                    
+
                     </Box>
-                  </StyledTableCell> 
+                  </StyledTableCell>
+
                   <StyledTableCell align="center">
                     <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 1 }}>
                       <StarIcon />
@@ -1626,12 +1628,12 @@ export const Request = () => {
                         </InputAdornment>
                       }
                     >
-                      <MenuItem value="בעל פה">בעל פה</MenuItem>
-                      <MenuItem value="בכתב">בכתב</MenuItem>
-                      <MenuItem value="מעורב">מעורב</MenuItem>
-                      <MenuItem value="שאלות ותשובות">שאלות ותשובות</MenuItem>
+                      <MenuItem value="zoom">זום</MenuItem>
+                      <MenuItem value="frontal">פרונטלי</MenuItem>
+                      <MenuItem value="phone">טלפון</MenuItem>
+                      {/* <MenuItem value="שאלות ותשובות">שאלות ותשובות</MenuItem>
                       <MenuItem value="חזרה">חזרה</MenuItem>
-                      <MenuItem value="לימוד חדש">לימוד חדש</MenuItem>
+                      <MenuItem value="לימוד חדש">לימוד חדש</MenuItem> */}
                     </Select>
                   </FormControl>
                 </Grid>
