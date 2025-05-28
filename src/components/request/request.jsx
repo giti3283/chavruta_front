@@ -1256,8 +1256,10 @@ export const Request = () => {
                 <TableRow>
                 <StyledTableCell align="center">
                     <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 1 }}>
+
                     </Box>
                   </StyledTableCell>
+
                   <StyledTableCell align="center">
                     <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 1 }}>
                       <StarIcon />
